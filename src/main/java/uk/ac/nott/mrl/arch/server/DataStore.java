@@ -16,43 +16,33 @@
  *     You should have received a copy of the GNU Affero General Public License
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.google.appengine:gradle-appengine-plugin:1.9.30'
-    }
-}
 
-repositories {
-    mavenCentral();
-}
+package uk.ac.nott.mrl.arch.server;
 
-apply plugin: 'java'
-apply plugin: 'war'
-apply plugin: 'idea'
-apply plugin: 'appengine'
+import com.googlecode.objectify.Objectify;
+import com.googlecode.objectify.ObjectifyFactory;
+import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.cmd.Loader;
+import com.googlecode.objectify.cmd.Saver;
 
-sourceCompatibility = JavaVersion.VERSION_1_7
-targetCompatibility = JavaVersion.VERSION_1_7
+class DataStore
+{
+	static
+	{
+		factory().register(Item.class);
+	}
 
-dependencies {
-    appengineSdk 'com.google.appengine:appengine-java-sdk:1.9.30'
-    compile "com.google.appengine:appengine-api-1.0-sdk:1.9.30"
-    compile 'javax.servlet:servlet-api:2.5'
-    compile 'com.googlecode.objectify:objectify:5.1.9'
-    compile 'com.google.code.gson:gson:2.5'
-}
+	public static Loader load() { return get().load(); }
 
-appengine {
-    downloadSdk = true
-    appcfg {
-        email = 'kevin.glover@gmail.com'
-        oauth2 = true
-    }
-}
+	public static Saver save() { return get().save(); }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.8'
+	public static Objectify get()
+	{
+		return ObjectifyService.ofy();
+	}
+
+	private static ObjectifyFactory factory()
+	{
+		return ObjectifyService.factory();
+	}
 }

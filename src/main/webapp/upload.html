@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+	<style>
+		.button {
+			margin: 5px;
+			background: #CCC;
+			padding: 10px;
+			display: inline-block;
+		}
+
+		.button label {
+			display: inline-block;
+			padding: 10px;
+		}
+	</style>
+</head>
+<body>
+<form action="/item" method="post">
+	<div style="display: flex">
+		<label class="button" for="male"><input id="male" name="gender" value="Male" type="radio"/>Male</label>
+		<label class="button" for="female"><input id="female" name="gender" value="Female" type="radio">Female</label>
+		<div class="button"><input id="child" name="gender" value="Child" type="radio">
+			<label for="child">Child</label></div>
+	</div>
+
+	<input type="submit">
+</form>
+</body>
+</html>

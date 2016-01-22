@@ -1,48 +1,68 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hello, App Engine!</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+	<script src="https://code.jquery.com/jquery-3.0.0-beta1.min.js"></script>
+	<script src="js/item.js"></script>
+	<style>
+		html {
+			height: 100%;
+		}
+
+		body {
+			background-color: #000;
+			width: 100%;
+			height: 100%;
+			color: white;
+			margin: 0;
+			font-size: 200%;
+		}
+
+		.content {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			margin-left: 20px;
+			border-left: 3px solid #777;
+			padding-left: 50px;
+			margin-right: 20px;
+			border-right: 3px solid #777;
+			padding-right: 50px;
+			justify-content: flex-end;
+		}
+
+		#in {
+			text-align:center;
+			margin-bottom: 20px
+		}
+
+		#detail {
+			font-family: monospace;
+			height: 50%;
+			font-size: 75%;
+			color: #CCC;
+		}
+
+		#out {
+			transform:rotate(180deg);
+			text-align:center;
+		}
+	</style>
 </head>
-<body role="document" style="padding-top: 70px;">
-
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">Hello, App Engine!</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="https://developers.google.com/appengine/docs/java/">Google App Engine documentation</a></li>
-                <li><a href="https://console.developers.google.com">Google Developers Console</a></li>
-            </ul>
-        </div>
-    </div>
+<body>
+<div class="content">
+	<div id="in">
+		‘Nothing in life is to be feared. It is only to be understood.’
+	</div>
+	<div id="detail">
+		<div>Male</div>
+		<div>6’2”</div>
+		<div>Black Top</div>
+		<div>Glasses</div>
+		<div>Positive Attitude</div>
+	</div>
+	<div id="out">
+		Who has opened a door for you and where did it lead?
+	</div>
 </div>
-
-<div class="container theme-showcase" role="main">
-    <div class="jumbotron">
-        <div class="row">
-            <div class="col-lg-12">
-                <h1>Hello, App Engine!</h1>
-                <p>Enter your name and press the button below to call <code>MyServlet</code>.</p>
-
-                <form action="/hello" method="POST">
-                    <div class="input-group">
-                        <input type="text" class="form-control input-lg" placeholder="Name" name="name" />
-                          <span class="input-group-btn">
-                             <button class="btn btn-default btn-primary btn-group btn-lg" type="submit" id="helloButton">Say "Hello";</button>
-                          </span>
-                    </div>
-                </form>
-                <br/>
-                <p>For more information about Google App Engine for Java, check out the <a href="https://developers.google.com/appengine/docs/java/">App Engine documentation</a>.</p>
-                <p>If you need step-by-step instructions for connecting your Android application to this backend module, see <a href="https://github.com/GoogleCloudPlatform/gradle-appengine-templates/tree/master/HelloWorld">"App Engine Java Servlet Module" template documentation</a>.</p>
-            </div>
-        </div>
-    </div>
-</div>
-
 </body>
 </html>
