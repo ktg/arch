@@ -19,39 +19,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ItemServlet extends HttpServlet
+public class StateServlet extends HttpServlet
 {
-	private final Gson gson;
-
-	public ItemServlet()
-	{
-		this.gson = new GsonBuilder().create();
-	}
-
-	@Override
-	public void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws IOException
-	{
-		Item item = DataStore.load().type(Item.class).id(Item.RECENT_ID).now();
-		final long modifiedSince = req.getDateHeader("If-Modified-Since");
-		if(modifiedSince != -1)
-		{
-			if(item == null || item.getTimestamp().getTime() <= modifiedSince)
-			{
-				resp.setStatus(304);
-				return;
-			}
-		}
-
-		resp.setContentType("application/json");
-		if (item == null)
-		{
-			item = new Item();
-		}
-
-		resp.addDateHeader("Last-Modified", item.getTimestamp().getTime());
-		resp.getWriter().print(gson.toJson(item));
-	}
-
 	@Override
 	public void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws IOException
 	{
@@ -72,7 +41,5 @@ public class ItemServlet extends HttpServlet
 		final Item item = new Item(UUID.randomUUID().toString(), values);
 		final Item recent = new Item(Item.RECENT_ID, values);
 		DataStore.save().entities(recent, item).now();
-		resp.setContentType("application/json");
-		resp.getWriter().print(gson.toJson(item));
 	}
 }

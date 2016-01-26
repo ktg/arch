@@ -1,30 +1,79 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/html">
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style>
-		.button {
-			margin: 5px;
-			background: #CCC;
-			padding: 10px;
-			display: inline-block;
+		body {
+			font-family: "Roboto", sans-serif;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
 		}
 
-		.button label {
-			display: inline-block;
-			padding: 10px;
+		input[type="radio"] {
+			display:none;
+		}
+
+		input[type="radio"] + label {
+			cursor: pointer;
+			display:inline-block;
+			padding: 10px 20px;
+			margin: 10px;
+			vertical-align:middle;
+			background: #CCC;
+			border-radius: 5px;
+		}
+
+		input[type="radio"]:checked + label
+		{
+			background: #88C;
+		}
+
+		#submit {
+			cursor: pointer;
+			display:inline-block;
+			padding: 10px 20px;
+			margin: 10px;
+			vertical-align:middle;
+			background: #333;
+			border-radius: 5px;
+			border: 0;
+			margin-top: 25px;
+			font-size: 16px;
+			color: #FFF;
+			font-family: "Roboto", sans-serif;
 		}
 	</style>
+	<script src="https://code.jquery.com/jquery-3.0.0-beta1.min.js"></script>
 </head>
 <body>
-<form action="/item" method="post">
+<form id="form">
 	<div style="display: flex">
-		<label class="button" for="male"><input id="male" name="gender" value="Male" type="radio"/>Male</label>
-		<label class="button" for="female"><input id="female" name="gender" value="Female" type="radio">Female</label>
-		<div class="button"><input id="child" name="gender" value="Child" type="radio">
-			<label for="child">Child</label></div>
+		<div><input id="male" name="gender" value="Male" type="radio"/><label for="male">Male</label></div>
+		<div><input id="female" name="gender" value="Female" type="radio"><label for="female">Female</label></div>
+		<div><input id="child" name="gender" value="Child" type="radio"><label for="child">Child</label></div>
 	</div>
 
-	<input type="submit">
+	<div style="display: flex">
+		<input id="redtop" name="top" value="Red Coat" type="radio"/><label for="redtop">Red Coat</label>
+		<input id="blacktop" name="top" value="Black Coat" type="radio"><label for="blacktop">Black Coat</label>
+	</div>
+
+	<div id="submit">Submit</div>
+
+	<script language="JavaScript">
+		$("#submit").click(function() {
+            $.ajax({
+                type: 'POST',
+                url: '/item',
+                data: $('#form').serialize()
+			});
+            $("input").prop('checked', false);
+		});
+	</script>
 </form>
 </body>
 </html>

@@ -22,17 +22,19 @@
 			flex-direction: column;
 			height: 100%;
 			margin-left: 20px;
-			border-left: 3px solid #777;
-			padding-left: 50px;
+			border-left: 6px solid #777;
+			padding-left: 80px;
 			margin-right: 20px;
-			border-right: 3px solid #777;
-			padding-right: 50px;
+			border-right: 6px solid #777;
+			padding-right: 80px;
 			justify-content: flex-end;
 		}
 
 		#in {
 			text-align:center;
-			margin-bottom: 20px
+			margin-bottom: 20px;
+			transform:rotate(180deg);
+			transition: opacity 1s ease-in-out;
 		}
 
 		#detail {
@@ -40,17 +42,18 @@
 			height: 50%;
 			font-size: 75%;
 			color: #CCC;
+			transition: opacity 1s ease-in-out;
 		}
 
 		#out {
-			transform:rotate(180deg);
 			text-align:center;
+			transition: opacity 1s ease-in-out;
 		}
 	</style>
 </head>
 <body>
 <div class="content">
-	<div id="in">
+	<div id="out">
 		‘Nothing in life is to be feared. It is only to be understood.’
 	</div>
 	<div id="detail">
@@ -60,7 +63,7 @@
 		<div>Glasses</div>
 		<div>Positive Attitude</div>
 	</div>
-	<div id="out">
+	<div id="in">
 		Who has opened a door for you and where did it lead?
 	</div>
 </div>

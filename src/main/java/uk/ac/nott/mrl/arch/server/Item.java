@@ -17,19 +17,19 @@ class Item
 
 	private String in;
 	private String out;
+	private String state;
+	private String height;
 	private List<String> shake = new ArrayList<>();
 
-	private Date timestamp;
+	private Date timestamp = new Date();
 
 	public Item()
 	{
-
 	}
 
 	public Item(final String id, final List<String> value)
 	{
 		this.id = id;
-		timestamp = new Date();
 		this.shake = value;
 	}
 

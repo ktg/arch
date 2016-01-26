@@ -9,6 +9,15 @@
         <url-pattern>/item</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>StateServlet</servlet-name>
+        <servlet-class>uk.ac.nott.mrl.arch.server.StateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StateServlet</servlet-name>
+        <url-pattern>/state</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>ObjectifyFilter</filter-name>
         <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
