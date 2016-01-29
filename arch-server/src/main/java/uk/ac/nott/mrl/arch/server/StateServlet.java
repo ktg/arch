@@ -122,6 +122,7 @@ public class StateServlet extends HttpServlet
 				final String height = req.getParameter("height");
 				if (height != null)
 				{
+					logger.info("height: " + height);
 					try
 					{
 						int heightCM = Integer.parseInt(height);
@@ -129,7 +130,7 @@ public class StateServlet extends HttpServlet
 						int feetPart = (int) Math.floor((heightCM / 2.54) / 12);
 						int inchesPart = (int) Math.floor((heightCM / 2.54) - (feetPart * 12));
 						item.setHeight(String.format("%d' %d\"", feetPart, inchesPart));
-
+						logger.info("height: " + item.getHeight());
 					}
 					catch (Exception e)
 					{
@@ -140,7 +141,6 @@ public class StateServlet extends HttpServlet
 				return item;
 			}
 		});
-
 
 		DataStore.save().entity(item).now();
 		resp.addDateHeader("Last-Modified", item.getTimestamp().getTime());

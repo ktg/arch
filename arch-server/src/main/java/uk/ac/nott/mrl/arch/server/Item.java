@@ -99,4 +99,9 @@ class Item
 		this.direction = direction;
 		timestamp = new Date();
 	}
+
+	public String getHeight()
+	{
+		return height;
+	}
 }
