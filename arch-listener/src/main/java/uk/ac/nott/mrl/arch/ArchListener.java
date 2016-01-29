@@ -60,7 +60,6 @@ public class ArchListener implements SerialPortEventListener
 				byte buffer[] = serialPort.readBytes();
 				for (byte b : buffer)
 				{
-					logger.info(""+b);
 					if ((b == '\r' || b == '\n') && message.length() > 0)
 					{
 						String toProcess = message.toString();
@@ -82,6 +81,7 @@ public class ArchListener implements SerialPortEventListener
 
 	private void processMessage(String message)
 	{
+		logger.info(message);
 		String string = message.toLowerCase();
 		if (string.startsWith("state"))
 		{
