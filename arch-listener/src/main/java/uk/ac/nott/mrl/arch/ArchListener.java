@@ -81,8 +81,8 @@ public class ArchListener implements SerialPortEventListener
 
 	private void processMessage(String message)
 	{
-		logger.info(message);
 		String string = message.toLowerCase();
+		logger.info(string);
 		if (string.startsWith("state"))
 		{
 			String[] parts = string.split(" ");
