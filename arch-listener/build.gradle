@@ -2,7 +2,7 @@ apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'application'
 
-mainClassName = 'uk.ac.nott.mrl.arch.ArchListener'
+mainClassName = 'uk.ac.nott.mrl.arch.ArchListenerUDP'
 
 repositories {
     mavenCentral()
@@ -10,6 +10,7 @@ repositories {
 
 dependencies {
     compile 'com.squareup.okhttp3:okhttp:3.0.1'
+	compile 'org.scream3r:jssc:2.8.0'
 }
 
 task testClient(type:JavaExec) {
