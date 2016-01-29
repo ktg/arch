@@ -1,0 +1,22 @@
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = 'uk.ac.nott.mrl.arch.ArchListener'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.squareup.okhttp3:okhttp:3.0.1'
+}
+
+task testClient(type:JavaExec) {
+    main = 'uk.ac.nott.mrl.tent.TentTestClient'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.10'
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="css/upload.css">
+	<script src="https://code.jquery.com/jquery-3.0.0-beta1.min.js"></script>
+</head>
+<body>
+<form id="form">
+	<div style="display: flex">
+		<div><input id="male" name="agender" value="Male" type="radio"/><label for="male">Male</label></div>
+		<div><input id="female" name="agender" value="Female" type="radio"><label for="female">Female</label></div>
+		<div><input id="child" name="agender" value="Child" type="radio"><label for="child">Child</label></div>
+	</div>
+
+	<div style="display: flex">
+		<input id="redtop" name="btop" value="Red Coat" type="radio"/><label for="redtop">Red Coat</label>
+		<input id="blacktop" name="btop" value="Black Coat" type="radio"><label for="blacktop">Black Coat</label>
+	</div>
+
+	<div style="display: flex">
+		<input id="glasses" name="cglasses" value="Glasses" type="radio"/><label for="glasses">Glasses</label>
+	</div>
+
+	<div style="display: flex">
+		<input id="pa" name="dquality" value="Positive Attitude" type="radio"/><label for="pa">Positive Attitude</label>
+	</div>
+
+	<div id="submit" class="submit">Submit</div>
+
+	<script language="JavaScript">
+		$("#submit").click(function() {
+            $.ajax({
+                type: 'POST',
+                url: '/item',
+                data: $('#form').serialize()
+			});
+            $("input").prop('checked', false);
+		});
+	</script>
+</form>
+</body>
+</html>
