@@ -25,7 +25,7 @@ public class ArchListener implements SerialPortEventListener
 		try
 		{
 			serialPort.openPort();//Open port
-			serialPort.setParams(9600, 8, 1, 0);//Set params
+			serialPort.setParams(SerialPort.BAUDRATE_9600, SerialPort.DATABITS_8, 1, 0);//Set params
 			int mask = SerialPort.MASK_RXCHAR + SerialPort.MASK_CTS + SerialPort.MASK_DSR;//Prepare mask
 			serialPort.setEventsMask(mask);//Set mask
 			serialPort.addEventListener(this);//Add SerialPortEventListener
@@ -60,6 +60,7 @@ public class ArchListener implements SerialPortEventListener
 				byte buffer[] = serialPort.readBytes();
 				for (byte b : buffer)
 				{
+					logger.info(""+b);
 					if ((b == '\r' || b == '\n') && message.length() > 0)
 					{
 						String toProcess = message.toString();
