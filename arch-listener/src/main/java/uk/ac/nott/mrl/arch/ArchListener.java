@@ -7,6 +7,7 @@ import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
+import jssc.SerialPortList;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -20,7 +21,7 @@ public class ArchListener implements SerialPortEventListener
 
 	public ArchListener(String port)
 	{
-		serialPort = new SerialPort("COM1");
+		serialPort = new SerialPort(port);
 		try
 		{
 			serialPort.openPort();//Open port
@@ -28,6 +29,7 @@ public class ArchListener implements SerialPortEventListener
 			int mask = SerialPort.MASK_RXCHAR + SerialPort.MASK_CTS + SerialPort.MASK_DSR;//Prepare mask
 			serialPort.setEventsMask(mask);//Set mask
 			serialPort.addEventListener(this);//Add SerialPortEventListener
+			logger.info("Listening on " + port);
 		}
 		catch (SerialPortException e)
 		{
@@ -41,7 +43,10 @@ public class ArchListener implements SerialPortEventListener
 
 	public static void main(String[] args)
 	{
-		ArchListener archListener = new ArchListener("COM1");
+		for (String portName: SerialPortList.getPortNames())
+		{
+			ArchListener archListener = new ArchListener(portName);
+		}
 	}
 
 	StringBuilder message = new StringBuilder();
@@ -77,7 +82,7 @@ public class ArchListener implements SerialPortEventListener
 	private void processMessage(String message)
 	{
 		String string = message.toLowerCase();
-		if(string.startsWith("state"))
+		if (string.startsWith("state"))
 		{
 			String[] parts = string.split(" ");
 
