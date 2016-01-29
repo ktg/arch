@@ -82,7 +82,6 @@ public class ArchListener implements SerialPortEventListener
 	private void processMessage(String message)
 	{
 		String string = message.trim().toLowerCase();
-		logger.info(string);
 		if (string.startsWith("state"))
 		{
 			String[] parts = string.split(" ");
@@ -103,7 +102,7 @@ public class ArchListener implements SerialPortEventListener
 
 				if (parts.length >= 3)
 				{
-					bodyBuilder.add("height", parts[3]);
+					bodyBuilder.add("height", parts[2]);
 				}
 
 				final Request.Builder builder = new Request.Builder()
