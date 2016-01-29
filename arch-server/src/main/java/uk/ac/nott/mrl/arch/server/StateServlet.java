@@ -138,11 +138,12 @@ public class StateServlet extends HttpServlet
 					}
 				}
 
+				DataStore.save().entity(item).now();
+				
 				return item;
 			}
 		});
 
-		DataStore.save().entity(item).now();
 		resp.addDateHeader("Last-Modified", item.getTimestamp().getTime());
 		resp.setCharacterEncoding("UTF-8");
 		resp.getWriter().print(gson.toJson(item));
