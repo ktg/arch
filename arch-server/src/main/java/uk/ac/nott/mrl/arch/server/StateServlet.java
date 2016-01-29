@@ -139,7 +139,9 @@ public class StateServlet extends HttpServlet
 				}
 
 				DataStore.save().entity(item).now();
-				
+
+				logger.info(gson.toJson(item));
+
 				return item;
 			}
 		});

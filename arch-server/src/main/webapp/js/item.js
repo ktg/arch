@@ -39,18 +39,24 @@
 				        $('#leave').css('opacity', '0');
 	                    $('#data').css('opacity', '0');
 					}
-					else if(item.state == "under")
-					{
-						$('#approach').css('opacity', '0');
-	                    $('#leave').css('opacity', '1');
-	                    $('#data').css('opacity', '1');
-					}
 					else
 					{
 	                    $('#approach').css('opacity', '0');
 			            $('#leave').css('opacity', '0');
 	                    $('#data').css('opacity', '0');
 					}
+				}
+				else if(item.state == "under")
+                {
+                   	$('#approach').css('opacity', '0');
+                    $('#leave').css('opacity', '1');
+                    $('#data').css('opacity', '1');
+                }
+                else
+                {
+                	$('#approach').css('opacity', '0');
+                    $('#leave').css('opacity', '0');
+                	$('#data').css('opacity', '0');
 				}
 			}
         },
