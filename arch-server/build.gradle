@@ -49,7 +49,7 @@ dependencies {
 appengine {
     downloadSdk = true
     httpAddress = "0.0.0.0"
-    httpPort = 80
+    httpPort = 8080
     appcfg {
         email = 'kevin.glover@gmail.com'
         oauth2 = true

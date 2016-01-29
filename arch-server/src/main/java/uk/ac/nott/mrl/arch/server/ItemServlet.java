@@ -8,7 +8,6 @@ package uk.ac.nott.mrl.arch.server;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.googlecode.objectify.Work;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +22,9 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ItemServlet extends HttpServlet
 {
+	static Item current;
+	static Item next;
+
 	private static final Logger logger = Logger.getLogger("");
 	private final Gson gson;
 
@@ -34,36 +36,15 @@ public class ItemServlet extends HttpServlet
 	@Override
 	public void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws IOException
 	{
-		Item item = DataStore.load().type(Item.class).id(Item.CURRENT_ITEM).now();
-		final long modifiedSince = req.getDateHeader("If-Modified-Since");
-		if(modifiedSince != -1)
-		{
-			if(item != null)
-			{
-				// Round to second accuracy
-				long timestamp = item.getTimestamp().getTime() / 10000;
-				timestamp = timestamp * 10000;
-				if(timestamp <= modifiedSince)
-				{
-					resp.setStatus(304);
-					return;
-				}
-			}
-			else
-			{
-				resp.setStatus(304);
-			}
-		}
-
 		resp.setContentType("application/json");
-		if (item == null)
+		if (current == null)
 		{
-			item = new Item();
+			current = new Item();
 		}
 
-		resp.addDateHeader("Last-Modified", item.getTimestamp().getTime());
+		resp.addDateHeader("Last-Modified", current.getTimestamp().getTime());
 		resp.setCharacterEncoding("UTF-8");
-		resp.getWriter().print(gson.toJson(item));
+		resp.getWriter().print(gson.toJson(current));
 	}
 
 	@Override
@@ -82,32 +63,20 @@ public class ItemServlet extends HttpServlet
 			}
 		}
 
-		final Item item = DataStore.get().transact(new Work<Item>()
+		if(current == null)
 		{
-			@Override
-			public Item run()
-			{
-				Item item = DataStore.load().type(Item.class).id(Item.CURRENT_ITEM).now();
-				if(item == null)
-				{
-					item = new Item(Item.CURRENT_ITEM, values);
-				}
-				//else if(item.getState() == Item.State.leaving || item.getState() == Item.State.under)
-				//{
-				//	item = new Item(Item.NEXT_ITEM, values);
-				//}
-				else
-				{
-					item.setData(values);
-				}
-
-				DataStore.save().entities(item);
-
-				return item;
-			}
-		});
+			current = new Item(Item.CURRENT_ITEM, values);
+		}
+		//else if(item.getState() == Item.State.leaving || item.getState() == Item.State.under)
+		//{
+		//	item = new Item(Item.NEXT_ITEM, values);
+		//}
+		else
+		{
+			current.setData(values);
+		}
 
 		resp.setContentType("application/json");
-		resp.getWriter().print(gson.toJson(item));
+		resp.getWriter().print(gson.toJson(current));
 	}
 }

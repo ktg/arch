@@ -9,7 +9,6 @@ package uk.ac.nott.mrl.arch.server;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.googlecode.objectify.Work;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -55,99 +54,87 @@ public class StateServlet extends HttpServlet
 	@Override
 	public void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws IOException
 	{
-		Item item = DataStore.get().transact(new Work<Item>()
+		if (ItemServlet.current == null)
 		{
-			@Override
-			public Item run()
+			ItemServlet.current = new Item(Item.CURRENT_ITEM, new ArrayList<String>());
+		}
+
+		final String stateString = req.getParameter("state");
+		if (stateString != null)
+		{
+			logger.info("State: " + stateString);
+			final Item.State state = Item.State.valueOf(stateString);
+			if (state != null)
 			{
-				Item item = DataStore.load().type(Item.class).id(Item.CURRENT_ITEM).now();
-				if (item == null)
+				if (ItemServlet.current.getState() == Item.State.leaving || (ItemServlet.current.getState() == Item.State.under && state != Item.State.leaving))
 				{
-					item = new Item(Item.CURRENT_ITEM, new ArrayList<String>());
+					ItemServlet.current.setId(UUID.randomUUID().toString());
+					DataStore.save().entity(ItemServlet.current).now();
+
+					ItemServlet.current = ItemServlet.next;
+					if (ItemServlet.current == null)
+					{
+						ItemServlet.current = new Item(Item.CURRENT_ITEM, new ArrayList<String>());
+					}
+					else
+					{
+						ItemServlet.current.setId(Item.CURRENT_ITEM);
+					}
+
+					DataStore.get().delete().type(Item.class).id(Item.NEXT_ITEM).now();
+
+					// TODO Upload to Facebook here
 				}
 
-				final String stateString = req.getParameter("state");
-				if (stateString != null)
+				if (state == Item.State.engagement)
 				{
-					logger.info("State: " + stateString);
-					final Item.State state = Item.State.valueOf(stateString);
-					if (state != null)
-					{
-						if (item.getState() != state)
-						{
-							if (item.getState() == Item.State.leaving || (item.getState() == Item.State.under && state != Item.State.leaving))
-							{
-								item.setId(UUID.randomUUID().toString());
-								DataStore.save().entity(item).now();
+					int index = random.nextInt(approach.size());
+					ItemServlet.current.setApproach(approach.get(index));
 
-								item = DataStore.load().type(Item.class).id(Item.NEXT_ITEM).now();
-								if (item == null)
-								{
-									item = new Item(Item.CURRENT_ITEM, new ArrayList<String>());
-								}
-								else
-								{
-									item.setId(Item.CURRENT_ITEM);
-								}
-
-								DataStore.get().delete().type(Item.class).id(Item.NEXT_ITEM).now();
-
-								// TODO Upload to Facebook here
-							}
-
-							if (state == Item.State.engagement)
-							{
-								int index = random.nextInt(approach.size());
-								item.setApproach(approach.get(index));
-
-								index = random.nextInt(leave.size());
-								item.setLeave(leave.get(index));
-							}
-
-							item.setState(state);
-						}
-					}
+					index = random.nextInt(leave.size());
+					ItemServlet.current.setLeave(leave.get(index));
 				}
 
-				final String directionString = req.getParameter("direction");
-				if(directionString != null)
-				{
-					final Item.Direction direction = Item.Direction.valueOf(directionString);
-					if(direction != null)
-					{
-						item.setDirection(direction);
-					}
-				}
-
-				final String height = req.getParameter("height");
-				if (height != null)
-				{
-					logger.info("height: " + height);
-					try
-					{
-						int heightCM = Integer.parseInt(height);
-
-						int feetPart = (int) Math.floor((heightCM / 2.54) / 12);
-						int inchesPart = (int) Math.floor((heightCM / 2.54) - (feetPart * 12));
-						item.setHeight(String.format("%d' %d\"", feetPart, inchesPart));
-						logger.info("height: " + item.getHeight());
-					}
-					catch (Exception e)
-					{
-						logger.log(Level.WARNING, e.getMessage(), e);
-					}
-				}
-
-				DataStore.save().entity(item).now();
-
-				logger.info(gson.toJson(item));
-
-				return item;
+				ItemServlet.current.setState(state);
 			}
-		});
+		}
 
-		resp.addDateHeader("Last-Modified", item.getTimestamp().getTime());
+		final String directionString = req.getParameter("direction");
+		if (directionString != null)
+		{
+			final Item.Direction direction = Item.Direction.valueOf(directionString);
+			if (direction != null)
+			{
+				ItemServlet.current.setDirection(direction);
+			}
+		}
+
+		final String height = req.getParameter("height");
+		if (height != null)
+		{
+			logger.info("height: " + height);
+			try
+			{
+				int heightCM = Integer.parseInt(height);
+
+				int feetPart = (int) Math.floor((heightCM / 2.54) / 12);
+				int inchesPart = (int) Math.floor((heightCM / 2.54) - (feetPart * 12));
+				ItemServlet.current.setHeight(String.format("%d' %d\"", feetPart, inchesPart));
+				logger.info("height: " + ItemServlet.current.getHeight());
+			}
+			catch (Exception e)
+			{
+				logger.log(Level.WARNING, e.getMessage(), e);
+			}
+		}
+
+		//DataStore.save().entity(item).now();
+
+		logger.info(gson.toJson(ItemServlet.current));
+
+
+		resp.addDateHeader("Last-Modified", ItemServlet.current.getTimestamp().getTime());
 		resp.setCharacterEncoding("UTF-8");
-		resp.getWriter().print(gson.toJson(item));
+		resp.getWriter().print(gson.toJson(ItemServlet.current));
 	}
 }

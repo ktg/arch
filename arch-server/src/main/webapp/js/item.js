@@ -26,6 +26,11 @@
                     }
 				}
 
+				if(item.state != null)
+				{
+					$('#debug').text(item.state);
+				}
+
 				if(item.height != null)
 				{
 					$('#data').append('<div>').append(item.height).append('</div>');
