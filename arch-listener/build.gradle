@@ -2,7 +2,7 @@ apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'application'
 
-mainClassName = 'uk.ac.nott.mrl.arch.ArchListenerUDP'
+mainClassName = 'uk.ac.nott.mrl.arch.ArchListener'
 
 repositories {
     mavenCentral()
