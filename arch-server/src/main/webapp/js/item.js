@@ -56,6 +56,13 @@
 	                    $('#data').css('opacity', '0');
 					}
 				}
+				else if(item.state == "approaching")
+				{
+                   	$('#approach').css('opacity', '0');
+                    $('#leave').css('opacity', '1');
+                    $('#data').css('opacity', '0');
+                    $('#circle').hide();
+				}
 				else if(item.state == "under")
                 {
                    	$('#approach').css('opacity', '0');
@@ -65,11 +72,6 @@
                 }
                 else
                 {
-                    if(item.state == "engagement")
-                    {
-                        $('#circle').hide();
-                    }
-
                 	$('#approach').css('opacity', '0');
                     $('#leave').css('opacity', '0');
                 	$('#data').css('opacity', '0');

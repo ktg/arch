@@ -44,7 +44,7 @@ body {
 
 #leave {
 	text-align:center;
-	transition: opacity 0.1s ease-in-out;
+	transition: opacity 2s ease-in-out;
 	opacity: 0;
 }
 
