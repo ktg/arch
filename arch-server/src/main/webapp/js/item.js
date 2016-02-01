@@ -72,6 +72,11 @@
                 }
                 else
                 {
+                    if(item.state == "engagement")
+                    {
+                        $('#circle').hide();
+                    }
+
                 	$('#approach').css('opacity', '0');
                     $('#leave').css('opacity', '0');
                 	$('#data').css('opacity', '0');
