@@ -49,10 +49,16 @@ body {
 
 #circle {
 	margin: 0 auto;
-    width: 100px;
-    height: 100px;
-    -webkit-border-radius: 50px;
-      -moz-border-radius: 50px;
-      border-radius: 50px;
+    width: 200px;
+    height: 200px;
+    -webkit-border-radius: 100px;
+      -moz-border-radius: 100px;
+      border-radius: 100px;
       background: white;
+        -webkit-filter: blur(10px);
+        -moz-filter: blur(10px);
+        -o-filter: blur(10px);
+        -ms-filter: blur(10px);
+        filter: blur(10px);
+
 }
