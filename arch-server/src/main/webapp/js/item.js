@@ -63,7 +63,7 @@
                     $('#data').css('opacity', '0');
                     $('#circle').hide();
 				}
-				else if(item.state == "under")
+				else if(item.state == "under" || item.state == "leaving")
                 {
                    	$('#approach').css('opacity', '0');
                     $('#leave').css('opacity', '1');
