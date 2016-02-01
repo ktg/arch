@@ -23,9 +23,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class StateServlet extends HttpServlet
 {
 	private static final Logger logger = Logger.getLogger("");
+
+	private final OkHttpClient httpClient;
 
 	private List<String> approach = new ArrayList<>();
 	private List<String> leave = new ArrayList<>();
@@ -36,6 +43,8 @@ public class StateServlet extends HttpServlet
 	public StateServlet()
 	{
 		gson = new GsonBuilder().create();
+		OkHttpClient.Builder builder = new OkHttpClient.Builder();
+		httpClient = builder.build();
 		try
 		{
 			approach = gson.fromJson(new InputStreamReader(StateServlet.class.getResource("/approach.json").openStream()), new TypeToken<List<String>>()
@@ -44,6 +53,7 @@ public class StateServlet extends HttpServlet
 			leave = gson.fromJson(new InputStreamReader(StateServlet.class.getResource("/leave.json").openStream()), new TypeToken<List<String>>()
 			{
 			}.getType());
+			gson.toJson(leave);
 		}
 		catch (Exception e)
 		{
@@ -69,7 +79,15 @@ public class StateServlet extends HttpServlet
 				if (ItemServlet.current.getState() == Item.State.leaving || (ItemServlet.current.getState() == Item.State.under && state != Item.State.leaving))
 				{
 					ItemServlet.current.setId(UUID.randomUUID().toString());
-					DataStore.save().entity(ItemServlet.current).now();
+					new Thread(new Runnable()
+					{
+						@Override
+						public void run()
+						{
+							// Upload to Facebook
+							facebookPost(ItemServlet.current);
+						}
+					}).start();
 
 					ItemServlet.current = ItemServlet.next;
 					if (ItemServlet.current == null)
@@ -80,10 +98,6 @@ public class StateServlet extends HttpServlet
 					{
 						ItemServlet.current.setId(Item.CURRENT_ITEM);
 					}
-
-					DataStore.get().delete().type(Item.class).id(Item.NEXT_ITEM).now();
-
-					// TODO Upload to Facebook here
 				}
 
 				if (state == Item.State.engagement)
@@ -132,9 +146,42 @@ public class StateServlet extends HttpServlet
 
 		logger.info(gson.toJson(ItemServlet.current));
 
-
 		resp.addDateHeader("Last-Modified", ItemServlet.current.getTimestamp().getTime());
 		resp.setCharacterEncoding("UTF-8");
 		resp.getWriter().print(gson.toJson(ItemServlet.current));
+	}
+
+	private void facebookPost(Item item)
+	{
+
+//		final FormBody.Builder bodyBuilder = new FormBody.Builder()
+//				.add("state", parts[1]);
+//		if (parts[0].equals("stateleft"))
+//		{
+//			bodyBuilder.add("direction", "left");
+//		}
+//		else if (parts[0].equals("stateright"))
+//		{
+//			bodyBuilder.add("direction", "right");
+//		}
+//
+//		if (parts.length >= 3)
+//		{
+//			bodyBuilder.add("height", parts[2]);
+//		}
+//
+//		final Request.Builder builder = new Request.Builder()
+//				.post(bodyBuilder.build())
+//				.url("http://localhost/state");
+//		final Request request = builder.build();
+//		try
+//		{
+//			final Response response = httpClient.newCall(request).execute();
+//		}
+//		catch (Exception e)
+//		{
+//			logger.log(Level.WARNING, e.getMessage(), e);
+//		}
+
 	}
 }
