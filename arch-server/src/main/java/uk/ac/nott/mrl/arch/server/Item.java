@@ -1,13 +1,9 @@
 package uk.ac.nott.mrl.arch.server;
 
-import com.googlecode.objectify.annotation.Entity;
-import com.googlecode.objectify.annotation.Id;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Entity
 class Item
 {
 	enum State
@@ -26,12 +22,6 @@ class Item
 		right
 	}
 
-	public static final String CURRENT_ITEM = "-current-";
-	public static final String NEXT_ITEM = "-next-";
-
-	@Id
-	private String id;
-
 	private String approach;
 	private String leave;
 	private Direction direction = null;
@@ -45,20 +35,14 @@ class Item
 	{
 	}
 
-	public Item(final String id, final List<String> data)
+	public Item(final List<String> data)
 	{
-		this.id = id;
 		this.data = data;
 	}
 
 	public Date getTimestamp()
 	{
 		return timestamp;
-	}
-
-	public void setId(final String id)
-	{
-		this.id = id;
 	}
 
 	public State getState()

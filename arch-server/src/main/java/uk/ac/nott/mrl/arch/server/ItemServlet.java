@@ -65,11 +65,11 @@ public class ItemServlet extends HttpServlet
 
 		if(current == null)
 		{
-			current = new Item(Item.CURRENT_ITEM, values);
+			current = new Item(values);
 		}
 		//else if(item.getState() == Item.State.leaving || item.getState() == Item.State.under)
 		//{
-		//	item = new Item(Item.NEXT_ITEM, values);
+		//	next = new Item(values);
 		//}
 		else
 		{

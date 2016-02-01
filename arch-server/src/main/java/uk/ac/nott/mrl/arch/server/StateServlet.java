@@ -15,7 +15,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -57,7 +56,7 @@ public class StateServlet extends HttpServlet
 	{
 		if (ItemServlet.current == null)
 		{
-			ItemServlet.current = new Item(Item.CURRENT_ITEM, new ArrayList<String>());
+			ItemServlet.current = new Item(new ArrayList<String>());
 		}
 
 		final String stateString = req.getParameter("state");
@@ -69,7 +68,6 @@ public class StateServlet extends HttpServlet
 			{
 				if (ItemServlet.current.getState() == Item.State.leaving || (ItemServlet.current.getState() == Item.State.under && state != Item.State.leaving))
 				{
-					ItemServlet.current.setId(UUID.randomUUID().toString());
 //					new Thread(new Runnable()
 //					{
 //						@Override
@@ -83,11 +81,7 @@ public class StateServlet extends HttpServlet
 					ItemServlet.current = ItemServlet.next;
 					if (ItemServlet.current == null)
 					{
-						ItemServlet.current = new Item(Item.CURRENT_ITEM, new ArrayList<String>());
-					}
-					else
-					{
-						ItemServlet.current.setId(Item.CURRENT_ITEM);
+						ItemServlet.current = new Item(new ArrayList<String>());
 					}
 				}
 
@@ -132,8 +126,6 @@ public class StateServlet extends HttpServlet
 				logger.log(Level.WARNING, e.getMessage(), e);
 			}
 		}
-
-		//DataStore.save().entity(item).now();
 
 		logger.info(gson.toJson(ItemServlet.current));
 
