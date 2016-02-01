@@ -31,11 +31,6 @@ body {
 	transform:rotate(180deg);
 	transition: opacity 0.1s ease-in-out;
 	opacity: 0;
-	-webkit-filter: blur(1px);
-    -moz-filter: blur(1px);
-    -o-filter: blur(1px);
-    -ms-filter: blur(1px);
-    filter: blur(1px);
 }
 
 #data {
@@ -45,24 +40,12 @@ body {
 	color: #CCC;
 	transition: opacity 0.1s ease-in-out;
 	opacity: 0;
-		-webkit-filter: blur(1px);
-        -moz-filter: blur(1px);
-        -o-filter: blur(1px);
-        -ms-filter: blur(1px);
-        filter: blur(1px);
-
 }
 
 #leave {
 	text-align:center;
-	transition: opacity 2s ease-in-out;
+	transition: opacity 0.1s ease-in-out;
 	opacity: 0;
-		-webkit-filter: blur(1px);
-        -moz-filter: blur(1px);
-        -o-filter: blur(1px);
-        -ms-filter: blur(1px);
-        filter: blur(1px);
-
 }
 
 #circle {
