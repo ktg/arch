@@ -70,15 +70,15 @@ public class StateServlet extends HttpServlet
 				if (ItemServlet.current.getState() == Item.State.leaving || (ItemServlet.current.getState() == Item.State.under && state != Item.State.leaving))
 				{
 					ItemServlet.current.setId(UUID.randomUUID().toString());
-					new Thread(new Runnable()
-					{
-						@Override
-						public void run()
-						{
-							// Upload to Facebook
-							facebookPost(ItemServlet.current);
-						}
-					}).start();
+//					new Thread(new Runnable()
+//					{
+//						@Override
+//						public void run()
+//						{
+//							// Upload to Facebook
+//							facebookPost(ItemServlet.current);
+//						}
+//					}).start();
 
 					ItemServlet.current = ItemServlet.next;
 					if (ItemServlet.current == null)
