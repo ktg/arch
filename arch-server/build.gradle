@@ -48,10 +48,10 @@ appengine {
     downloadSdk = true
     httpAddress = "0.0.0.0"
     httpPort = 80
-	warDir = file('src/main/webapp')
+//	warDir = file('src/main/webapp')
 }
 
-sourceSets.main.output.classesDir = 'src/main/webapp/WEB-INF/classes'
+//sourceSets.main.output.classesDir = 'src/main/webapp/WEB-INF/classes'
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.10'
