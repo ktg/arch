@@ -43,7 +43,7 @@
 
 				if(window.location.pathname.endsWith(item.direction +".html"))
 				{
-					if(item.state == "approaching" || item.state == "engagement")
+					if(item.state == "engagement")
 					{
 	                    $('#approach').css('opacity', '1');
 				        $('#leave').css('opacity', '0');
