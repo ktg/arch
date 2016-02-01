@@ -23,16 +23,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
 public class StateServlet extends HttpServlet
 {
 	private static final Logger logger = Logger.getLogger("");
-
-	private final OkHttpClient httpClient;
 
 	private List<String> approach = new ArrayList<>();
 	private List<String> leave = new ArrayList<>();
@@ -43,8 +36,6 @@ public class StateServlet extends HttpServlet
 	public StateServlet()
 	{
 		gson = new GsonBuilder().create();
-		OkHttpClient.Builder builder = new OkHttpClient.Builder();
-		httpClient = builder.build();
 		try
 		{
 			approach = gson.fromJson(new InputStreamReader(StateServlet.class.getResource("/approach.json").openStream()), new TypeToken<List<String>>()

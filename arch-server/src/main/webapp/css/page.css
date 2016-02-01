@@ -33,7 +33,7 @@ body {
 }
 
 #data {
-	font-family: monospace;\
+	font-family: monospace;
 	flex: 1;
 	font-size: 75%;
 	color: #CCC;
