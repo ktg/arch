@@ -36,6 +36,11 @@
 					$('#data').append('<div>').append(item.height).append('</div>');
 				}
 
+				if(item.state == "waiting" || item.state == "left")
+				{
+					$('#circle').show();
+				}
+
 				if(window.location.pathname.endsWith(item.direction +".html"))
 				{
 					if(item.state == "approaching" || item.state == "engagement")
@@ -56,9 +61,15 @@
                    	$('#approach').css('opacity', '0');
                     $('#leave').css('opacity', '1');
                     $('#data').css('opacity', '1');
+                    $('#circle').hide();
                 }
                 else
                 {
+                    if(item.state == "engagement")
+                    {
+                        $('#circle').hide();
+                    }
+
                 	$('#approach').css('opacity', '0');
                     $('#leave').css('opacity', '0');
                 	$('#data').css('opacity', '0');

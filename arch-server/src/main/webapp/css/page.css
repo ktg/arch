@@ -46,3 +46,13 @@ body {
 	transition: opacity 0.5s ease-in-out;
 	opacity: 0;
 }
+
+#circle {
+	margin: 0 auto;
+    width: 100px;
+    height: 100px;
+    -webkit-border-radius: 50px;
+      -moz-border-radius: 50px;
+      border-radius: 50px;
+      background: white;
+}
