@@ -41,6 +41,11 @@
 					$('#circle').show();
 				}
 
+                if(item.state == "engagement")
+                {
+                    $('#circle').hide();
+                }
+
 				if(window.location.pathname.endsWith(item.direction +".html"))
 				{
 					if(item.state == "engagement")
@@ -72,11 +77,6 @@
                 }
                 else
                 {
-                    if(item.state == "engagement")
-                    {
-                        $('#circle').hide();
-                    }
-
                 	$('#approach').css('opacity', '0');
                     $('#leave').css('opacity', '0');
                 	$('#data').css('opacity', '0');
