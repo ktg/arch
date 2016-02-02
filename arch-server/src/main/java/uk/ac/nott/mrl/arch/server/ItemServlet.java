@@ -22,29 +22,21 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ItemServlet extends HttpServlet
 {
-	static Item current;
-	static Item next;
-
 	private static final Logger logger = Logger.getLogger("");
-	private final Gson gson;
-
-	public ItemServlet()
-	{
-		this.gson = new GsonBuilder().create();
-	}
+	private static final Gson gson = new GsonBuilder().create();
 
 	@Override
 	public void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws IOException
 	{
 		resp.setContentType("application/json");
-		if (current == null)
+		if (Item.current == null)
 		{
-			current = new Item();
+			Item.current = new Item();
 		}
 
-		resp.addDateHeader("Last-Modified", current.getTimestamp().getTime());
+		resp.addDateHeader("Last-Modified", Item.current.getTimestamp().getTime());
 		resp.setCharacterEncoding("UTF-8");
-		resp.getWriter().print(gson.toJson(current));
+		resp.getWriter().print(gson.toJson(Item.current));
 	}
 
 	@Override
@@ -54,7 +46,7 @@ public class ItemServlet extends HttpServlet
 		final Map<String, String[]> parameterNames = req.getParameterMap();
 		final List<String> names = new ArrayList<>(parameterNames.keySet());
 		Collections.sort(names);
-		for(String parameter: names)
+		for (String parameter : names)
 		{
 			String value = req.getParameter(parameter);
 			if (value != null)
@@ -63,9 +55,9 @@ public class ItemServlet extends HttpServlet
 			}
 		}
 
-		if(current == null)
+		if (Item.current == null)
 		{
-			current = new Item(values);
+			Item.current = new Item(values);
 		}
 		//else if(item.getState() == Item.State.leaving || item.getState() == Item.State.under)
 		//{
@@ -73,10 +65,10 @@ public class ItemServlet extends HttpServlet
 		//}
 		else
 		{
-			current.setData(values);
+			Item.current.setData(values);
 		}
 
 		resp.setContentType("application/json");
-		resp.getWriter().print(gson.toJson(current));
+		resp.getWriter().print(gson.toJson(Item.current));
 	}
 }

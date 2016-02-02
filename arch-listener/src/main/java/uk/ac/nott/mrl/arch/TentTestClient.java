@@ -11,12 +11,29 @@ import java.util.logging.Logger;
 public class TentTestClient implements Runnable
 {
 	private static final Logger logger = Logger.getLogger(TentTestClient.class.getSimpleName());
+	private final int port;
+	private double max = 1;
+	private double min = -1;
+	private double downDuration = 3;
+	private double upDuration = 3;
+	private double outFreq = 30;
+	private double delta = 1 / 30;
+	private double range = 1;
+	private long sleep = 33;
+	private boolean running = false;
+
+	public TentTestClient(final int port)
+	{
+		this.port = port;
+		updateDelta();
+		updateRange();
+	}
 
 	public static void main(final String args[])
 	{
 		// TODO Get port
 		int port = 2258;
-		if(args.length > 0)
+		if (args.length > 0)
 		{
 			try
 			{
@@ -33,28 +50,6 @@ public class TentTestClient implements Runnable
 		client.setDownDuration(3);
 		client.setOutFreq(10);
 		client.start();
-	}
-
-	private double max = 1;
-	private double min = -1;
-	private double downDuration = 3;
-	private double upDuration = 3;
-	private double outFreq = 30;
-	private final int port;
-
-	private double delta = 1 / 30;
-
-	private double range = 1;
-
-	private long sleep = 33;
-
-	private boolean running = false;
-
-	public TentTestClient(final int port)
-	{
-		this.port = port;
-		updateDelta();
-		updateRange();
 	}
 
 	@Override
@@ -85,7 +80,7 @@ public class TentTestClient implements Runnable
 
 				try
 				{
-					final int out = (int)((((y + 1) * range) + min) * 10000);
+					final int out = (int) ((((y + 1) * range) + min) * 10000);
 					final byte[] data = ByteBuffer.allocate(4).putInt(out).array();
 					DatagramPacket sendPacket = new DatagramPacket(data, data.length, IPAddress, port);
 					socket.send(sendPacket);

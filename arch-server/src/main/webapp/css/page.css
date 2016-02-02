@@ -49,18 +49,27 @@ body {
 	opacity: 0;
 }
 
+#author {
+	text-align:right;
+	color: #999;
+	font-style: italic;
+	transition: opacity 0.1s ease-in-out;
+	opacity: 0;
+}
+
+#circleHolder {
+	position: absolute;
+	width: 100%;
+}
+
 #circle {
 	margin: 0 auto;
     width: 200px;
     height: 200px;
-    -webkit-border-radius: 100px;
-      -moz-border-radius: 100px;
-      border-radius: 100px;
-      background: white;
-        -webkit-filter: blur(10px);
-        -moz-filter: blur(10px);
-        -o-filter: blur(10px);
-        -ms-filter: blur(10px);
-        filter: blur(10px);
-
+    border-radius: 100px;
+    background: white;
+    -webkit-filter: blur(10px);
+    -moz-filter: blur(10px);
+    filter: blur(10px);
+	transition: opacity 0.1s ease-in-out;
 }

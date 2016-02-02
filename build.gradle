@@ -1,7 +1,8 @@
 apply plugin: 'idea'
+apply plugin: 'java'
 
 repositories {
-    mavenCentral()
+	mavenCentral()
 }
 
 task wrapper(type: Wrapper) {

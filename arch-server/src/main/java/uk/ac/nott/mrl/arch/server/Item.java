@@ -6,6 +6,9 @@ import java.util.List;
 
 class Item
 {
+	static Item current;
+	static Item next;
+
 	enum State
 	{
 		waiting,
@@ -23,6 +26,7 @@ class Item
 	}
 
 	private String approach;
+	private String author;
 	private String leave;
 	private Direction direction = null;
 	private State state = State.waiting;
@@ -62,12 +66,6 @@ class Item
 		timestamp = new Date();
 	}
 
-	public void setHeight(String height)
-	{
-		this.height = height;
-		timestamp = new Date();
-	}
-
 	public void setApproach(String approach)
 	{
 		this.approach = approach;
@@ -87,5 +85,36 @@ class Item
 	public String getHeight()
 	{
 		return height;
+	}
+
+	public void setHeight(String height)
+	{
+		this.height = height;
+		timestamp = new Date();
+	}
+
+	public void setAuthor(String author)
+	{
+		this.author = author;
+	}
+
+	@Override
+	public String toString()
+	{
+		final StringBuilder builder = new StringBuilder();
+		builder.append(approach);
+		builder.append("\n");
+		for(String dataItem: data)
+		{
+			builder.append(dataItem);
+			builder.append("\n");
+		}
+		builder.append(leave);
+		if(author != null)
+		{
+			builder.append("\n");
+			builder.append(author);
+		}
+		return builder.toString();
 	}
 }

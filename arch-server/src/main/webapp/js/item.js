@@ -7,15 +7,15 @@
             //console.log(data);
             if(item != null)
             {
-				if(item.approach != null)
-				{
-					$('#approach').text(item.approach)
-				}
+                for (var prop in item)
+                {
+                    $('#'+prop).text(item[prop]);
+                }
 
-				if(item.leave != null)
-				{
-					$('#leave').text(item.leave)
-				}
+                if(item.author == null)
+                {
+                    $('#author').text('');
+                }
 
 				if(item.data != null)
 				{
@@ -26,11 +26,6 @@
                     }
 				}
 
-				if(item.state != null)
-				{
-					$('#debug').text(item.state);
-				}
-
 				if(item.height != null)
 				{
 					$('#data').append('<div>').append(item.height).append('</div>');
@@ -38,12 +33,12 @@
 
 				if(item.state == "waiting" || item.state == "left")
 				{
-					$('#circle').show();
+					$('#circle').css('opacity', '1');
 				}
 
                 if(item.state == "engagement")
                 {
-                    $('#circle').hide();
+                    $('#circle').css('opacity', '0');
                 }
 
 				if(window.location.pathname.endsWith(item.direction +".html"))
@@ -52,12 +47,14 @@
 					{
 	                    $('#approach').css('opacity', '1');
 				        $('#leave').css('opacity', '0');
+	                    $('#author').css('opacity', '0');
 	                    $('#data').css('opacity', '0');
 					}
 					else
 					{
 	                    $('#approach').css('opacity', '0');
 			            $('#leave').css('opacity', '0');
+	                    $('#author').css('opacity', '0');
 	                    $('#data').css('opacity', '0');
 					}
 				}
@@ -65,20 +62,23 @@
 				{
                    	$('#approach').css('opacity', '0');
                     $('#leave').css('opacity', '1');
+                    $('#author').css('opacity', '1');
                     $('#data').css('opacity', '0');
-                    $('#circle').hide();
+                    $('#circle').css('opacity', '0');
 				}
 				else if(item.state == "under" || item.state == "leaving")
                 {
                    	$('#approach').css('opacity', '0');
                     $('#leave').css('opacity', '1');
+                    $('#author').css('opacity', '1');
                     $('#data').css('opacity', '1');
-                    $('#circle').hide();
+                    $('#circle').css('opacity', '0');
                 }
                 else
                 {
                 	$('#approach').css('opacity', '0');
                     $('#leave').css('opacity', '0');
+                    $('#author').css('opacity', '0');
                 	$('#data').css('opacity', '0');
 				}
 			}

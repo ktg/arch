@@ -6,14 +6,22 @@
 
 package uk.ac.nott.mrl.arch.server;
 
+import com.google.appengine.api.urlfetch.HTTPMethod;
+import com.google.appengine.api.urlfetch.HTTPRequest;
+import com.google.appengine.api.urlfetch.URLFetchService;
+import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,25 +33,25 @@ import javax.servlet.http.HttpServletResponse;
 public class StateServlet extends HttpServlet
 {
 	private static final Logger logger = Logger.getLogger("");
+	private static final Gson gson = new GsonBuilder().create();
+	private static final URLFetchService fetcher = URLFetchServiceFactory.getURLFetchService();
 
-	private List<String> approach = new ArrayList<>();
-	private List<String> leave = new ArrayList<>();
-
-	private final Gson gson;
 	private final Random random = new Random();
+	private final List<String> approach;
+	private final List<String> leave;
+	private final Properties properties = new Properties();
+	private URL facebookURL;
 
 	public StateServlet()
 	{
-		gson = new GsonBuilder().create();
+		approach = loadStrings("/approach.json");
+		leave = loadStrings("/leave.json");
 		try
 		{
-			approach = gson.fromJson(new InputStreamReader(StateServlet.class.getResource("/approach.json").openStream()), new TypeToken<List<String>>()
-			{
-			}.getType());
-			leave = gson.fromJson(new InputStreamReader(StateServlet.class.getResource("/leave.json").openStream()), new TypeToken<List<String>>()
-			{
-			}.getType());
-			gson.toJson(leave);
+
+			properties.load(load("/facebook.properties"));
+
+			facebookURL = new URL("https://graph.facebook.com/v2.5/" + properties.getProperty("page.id") + "/feed");
 		}
 		catch (Exception e)
 		{
@@ -51,12 +59,32 @@ public class StateServlet extends HttpServlet
 		}
 	}
 
+	private static List<String> loadStrings(String file)
+	{
+		try
+		{
+			return gson.fromJson(new InputStreamReader(load(file), "UTF-8"), new TypeToken<List<String>>()
+			{
+			}.getType());
+		}
+		catch (IOException e)
+		{
+			logger.log(Level.WARNING, e.getMessage(), e);
+		}
+		return new ArrayList<>();
+	}
+
+	private static InputStream load(String file) throws IOException
+	{
+		return StateServlet.class.getResource(file).openStream();
+	}
+
 	@Override
 	public void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws IOException
 	{
-		if (ItemServlet.current == null)
+		if (Item.current == null)
 		{
-			ItemServlet.current = new Item(new ArrayList<String>());
+			Item.current = new Item(new ArrayList<String>());
 		}
 
 		final String stateString = req.getParameter("state");
@@ -66,35 +94,37 @@ public class StateServlet extends HttpServlet
 			final Item.State state = Item.State.valueOf(stateString);
 			if (state != null)
 			{
-				if (ItemServlet.current.getState() == Item.State.leaving || (ItemServlet.current.getState() == Item.State.under && state != Item.State.leaving))
+				if (Item.current.getState() == Item.State.leaving || (Item.current.getState() == Item.State.under && state != Item.State.leaving))
 				{
-//					new Thread(new Runnable()
-//					{
-//						@Override
-//						public void run()
-//						{
-//							// Upload to Facebook
-//							facebookPost(ItemServlet.current);
-//						}
-//					}).start();
+					facebookPost(Item.current);
 
-					ItemServlet.current = ItemServlet.next;
-					if (ItemServlet.current == null)
+					Item.current = Item.next;
+					if (Item.current == null)
 					{
-						ItemServlet.current = new Item(new ArrayList<String>());
+						Item.current = new Item(new ArrayList<String>());
 					}
 				}
 
 				if (state == Item.State.engagement)
 				{
 					int index = random.nextInt(approach.size());
-					ItemServlet.current.setApproach(approach.get(index));
+					Item.current.setApproach(approach.get(index).trim());
 
 					index = random.nextInt(leave.size());
-					ItemServlet.current.setLeave(leave.get(index));
+					String leaveString = leave.get(index);
+					String[] leaveArray = leaveString.split(" - ");
+					if (leaveArray.length > 1)
+					{
+						Item.current.setLeave(leaveArray[0].trim());
+						Item.current.setAuthor(leaveArray[1].trim());
+					}
+					else
+					{
+						Item.current.setLeave(leaveString.trim());
+					}
 				}
 
-				ItemServlet.current.setState(state);
+				Item.current.setState(state);
 			}
 		}
 
@@ -104,7 +134,7 @@ public class StateServlet extends HttpServlet
 			final Item.Direction direction = Item.Direction.valueOf(directionString);
 			if (direction != null)
 			{
-				ItemServlet.current.setDirection(direction);
+				Item.current.setDirection(direction);
 			}
 		}
 
@@ -118,8 +148,8 @@ public class StateServlet extends HttpServlet
 
 				int feetPart = (int) Math.floor((heightCM / 2.54) / 12);
 				int inchesPart = (int) Math.floor((heightCM / 2.54) - (feetPart * 12));
-				ItemServlet.current.setHeight(String.format("%d' %d\"", feetPart, inchesPart));
-				logger.info("height: " + ItemServlet.current.getHeight());
+				Item.current.setHeight(String.format("%d' %d\"", feetPart, inchesPart));
+				logger.info("height: " + Item.current.getHeight());
 			}
 			catch (Exception e)
 			{
@@ -127,44 +157,33 @@ public class StateServlet extends HttpServlet
 			}
 		}
 
-		logger.info(gson.toJson(ItemServlet.current));
+		logger.info(gson.toJson(Item.current));
 
-		resp.addDateHeader("Last-Modified", ItemServlet.current.getTimestamp().getTime());
+		resp.addDateHeader("Last-Modified", Item.current.getTimestamp().getTime());
 		resp.setCharacterEncoding("UTF-8");
-		resp.getWriter().print(gson.toJson(ItemServlet.current));
+		resp.getWriter().print(gson.toJson(Item.current));
 	}
 
 	private void facebookPost(Item item)
 	{
+		try
+		{
+			if(properties.getProperty("upload.enabled").equals("true"))
+			{
+				final HTTPRequest request = new HTTPRequest(facebookURL, HTTPMethod.POST);
 
-//		final FormBody.Builder bodyBuilder = new FormBody.Builder()
-//				.add("state", parts[1]);
-//		if (parts[0].equals("stateleft"))
-//		{
-//			bodyBuilder.add("direction", "left");
-//		}
-//		else if (parts[0].equals("stateright"))
-//		{
-//			bodyBuilder.add("direction", "right");
-//		}
-//
-//		if (parts.length >= 3)
-//		{
-//			bodyBuilder.add("height", parts[2]);
-//		}
-//
-//		final Request.Builder builder = new Request.Builder()
-//				.post(bodyBuilder.build())
-//				.url("http://localhost/state");
-//		final Request request = builder.build();
-//		try
-//		{
-//			final Response response = httpClient.newCall(request).execute();
-//		}
-//		catch (Exception e)
-//		{
-//			logger.log(Level.WARNING, e.getMessage(), e);
-//		}
+				final String body = "message=" + URLEncoder.encode(item.toString(), "UTF-8") + "&access_token=" + properties.getProperty("page.accessToken");
+				request.setPayload(body.getBytes("UTF-8"));
 
+				logger.info(facebookURL.toString());
+				logger.info(body);
+
+				fetcher.fetchAsync(request);
+			}
+		}
+		catch (Exception e)
+		{
+			logger.log(Level.WARNING, e.getMessage(), e);
+		}
 	}
 }
