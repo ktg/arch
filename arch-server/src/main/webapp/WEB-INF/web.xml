@@ -18,6 +18,10 @@
 		<url-pattern>/state</url-pattern>
 	</servlet-mapping>
 
+	<listener>
+		<listener-class>uk.ac.nott.mrl.arch.server.ArchLogConfigListener</listener-class>
+	</listener>
+
 	<welcome-file-list>
 		<welcome-file>left.html</welcome-file>
 	</welcome-file-list>

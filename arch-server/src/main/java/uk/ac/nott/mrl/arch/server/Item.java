@@ -1,12 +1,23 @@
 package uk.ac.nott.mrl.arch.server;
 
+import com.google.common.hash.Hashing;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 class Item
 {
-	static Item current;
+	private static final Logger logger = Logger.getLogger("Data");
+
+	private static final Gson gson = new GsonBuilder().create();
+	private static final Charset charset = Charset.forName("UTF-8");
+	static Item current = new Item();
+	static String currentJson = "";
+	static String currentTag = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";
 	static Item next;
 
 	enum State
@@ -33,8 +44,6 @@ class Item
 	private String height;
 	private List<String> data = new ArrayList<>();
 
-	private Date timestamp = new Date();
-
 	public Item()
 	{
 	}
@@ -42,11 +51,6 @@ class Item
 	public Item(final List<String> data)
 	{
 		this.data = data;
-	}
-
-	public Date getTimestamp()
-	{
-		return timestamp;
 	}
 
 	public State getState()
@@ -57,13 +61,11 @@ class Item
 	public void setState(State state)
 	{
 		this.state = state;
-		timestamp = new Date();
 	}
 
 	public void setData(List<String> data)
 	{
 		this.data = data;
-		timestamp = new Date();
 	}
 
 	public void setApproach(String approach)
@@ -79,7 +81,6 @@ class Item
 	public void setDirection(Direction direction)
 	{
 		this.direction = direction;
-		timestamp = new Date();
 	}
 
 	public String getHeight()
@@ -90,7 +91,6 @@ class Item
 	public void setHeight(String height)
 	{
 		this.height = height;
-		timestamp = new Date();
 	}
 
 	public void setAuthor(String author)
@@ -116,5 +116,32 @@ class Item
 			builder.append(author);
 		}
 		return builder.toString();
+	}
+
+	public static void updateCurrent()
+	{
+		final String json = gson.toJson(current);
+		final String tag = Hashing.sha256().hashString(json, charset).toString();
+		if(!tag.equals(currentTag))
+		{
+			currentTag = tag;
+			currentJson = json;
+			logger.info(currentJson);
+		}
+	}
+
+	public String getApproach()
+	{
+		return approach;
+	}
+
+	public String getLeave()
+	{
+		return leave;
+	}
+
+	public Direction getDirection()
+	{
+		return direction;
 	}
 }

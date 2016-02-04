@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class StateServlet extends HttpServlet
 {
-	private static final Logger logger = Logger.getLogger("");
+	private static final Logger logger = Logger.getLogger("Updates");
 	private static final Gson gson = new GsonBuilder().create();
 	private static final URLFetchService fetcher = URLFetchServiceFactory.getURLFetchService();
 
@@ -90,10 +90,10 @@ public class StateServlet extends HttpServlet
 		final String stateString = req.getParameter("state");
 		if (stateString != null)
 		{
-			logger.info("State: " + stateString);
 			final Item.State state = Item.State.valueOf(stateString);
-			if (state != null)
+			if (state != null && state != Item.current.getState())
 			{
+				logger.info("State: " + state);
 				if (Item.current.getState() == Item.State.leaving || (Item.current.getState() == Item.State.under && state != Item.State.leaving))
 				{
 					facebookPost(Item.current);
@@ -109,9 +109,10 @@ public class StateServlet extends HttpServlet
 				{
 					int index = random.nextInt(approach.size());
 					Item.current.setApproach(approach.get(index).trim());
+					logger.info("Approach Message: " + Item.current.getApproach());
 
 					index = random.nextInt(leave.size());
-					String leaveString = leave.get(index);
+					String leaveString = leave.get(index).trim();
 					String[] leaveArray = leaveString.split(" - ");
 					if (leaveArray.length > 1)
 					{
@@ -120,8 +121,9 @@ public class StateServlet extends HttpServlet
 					}
 					else
 					{
-						Item.current.setLeave(leaveString.trim());
+						Item.current.setLeave(leaveString);
 					}
+					logger.info("Leave Message: " + leaveString);
 				}
 
 				Item.current.setState(state);
@@ -132,16 +134,17 @@ public class StateServlet extends HttpServlet
 		if (directionString != null)
 		{
 			final Item.Direction direction = Item.Direction.valueOf(directionString);
-			if (direction != null)
+			if (direction != null && Item.current.getDirection() != direction)
 			{
 				Item.current.setDirection(direction);
+				logger.info("Direction: " + direction.toString());
 			}
 		}
 
 		final String height = req.getParameter("height");
 		if (height != null)
 		{
-			logger.info("height: " + height);
+			logger.info("Height: " + height);
 			try
 			{
 				int heightCM = Integer.parseInt(height);
@@ -149,7 +152,7 @@ public class StateServlet extends HttpServlet
 				int feetPart = (int) Math.floor((heightCM / 2.54) / 12);
 				int inchesPart = (int) Math.floor((heightCM / 2.54) - (feetPart * 12));
 				Item.current.setHeight(String.format("%d' %d\"", feetPart, inchesPart));
-				logger.info("height: " + Item.current.getHeight());
+				logger.info("Height: " + Item.current.getHeight());
 			}
 			catch (Exception e)
 			{
@@ -157,18 +160,18 @@ public class StateServlet extends HttpServlet
 			}
 		}
 
-		logger.info(gson.toJson(Item.current));
+		Item.updateCurrent();
 
-		resp.addDateHeader("Last-Modified", Item.current.getTimestamp().getTime());
+		resp.addHeader("ETag", Item.currentTag);
 		resp.setCharacterEncoding("UTF-8");
-		resp.getWriter().print(gson.toJson(Item.current));
+		resp.getWriter().print(Item.currentJson);
 	}
 
 	private void facebookPost(Item item)
 	{
 		try
 		{
-			if(properties.getProperty("upload.enabled").equals("true"))
+			if (properties.getProperty("upload.enabled").equals("true"))
 			{
 				final HTTPRequest request = new HTTPRequest(facebookURL, HTTPMethod.POST);
 

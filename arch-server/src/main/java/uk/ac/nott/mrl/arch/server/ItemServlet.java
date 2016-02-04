@@ -6,9 +6,6 @@
 
 package uk.ac.nott.mrl.arch.server;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,21 +19,28 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ItemServlet extends HttpServlet
 {
-	private static final Logger logger = Logger.getLogger("");
-	private static final Gson gson = new GsonBuilder().create();
+	private static final Logger logger = Logger.getLogger("Updates");
 
 	@Override
 	public void doGet(final HttpServletRequest req, final HttpServletResponse resp) throws IOException
 	{
-		resp.setContentType("application/json");
-		if (Item.current == null)
+		String matches = req.getHeader("If-None-Match");
+		if (matches != null && matches.equals(Item.currentTag))
 		{
-			Item.current = new Item();
+			resp.setStatus(304);
 		}
+		else
+		{
+			resp.setContentType("application/json");
+			if (Item.current == null)
+			{
+				Item.current = new Item();
+			}
 
-		resp.addDateHeader("Last-Modified", Item.current.getTimestamp().getTime());
-		resp.setCharacterEncoding("UTF-8");
-		resp.getWriter().print(gson.toJson(Item.current));
+			resp.addHeader("ETag", Item.currentTag);
+			resp.setCharacterEncoding("UTF-8");
+			resp.getWriter().print(Item.currentJson);
+		}
 	}
 
 	@Override
@@ -46,14 +50,25 @@ public class ItemServlet extends HttpServlet
 		final Map<String, String[]> parameterNames = req.getParameterMap();
 		final List<String> names = new ArrayList<>(parameterNames.keySet());
 		Collections.sort(names);
+		String data = "";
 		for (String parameter : names)
 		{
 			String value = req.getParameter(parameter);
 			if (value != null)
 			{
+				if(data.equals(""))
+				{
+					data = value;
+				}
+				else
+				{
+					data = data + ", " + value;
+				}
 				values.add(value);
 			}
 		}
+		logger.info("Data: " + data);
+
 
 		if (Item.current == null)
 		{
@@ -68,7 +83,11 @@ public class ItemServlet extends HttpServlet
 			Item.current.setData(values);
 		}
 
+		Item.updateCurrent();
+
 		resp.setContentType("application/json");
-		resp.getWriter().print(gson.toJson(Item.current));
+		resp.addHeader("ETag", Item.currentTag);
+		resp.setCharacterEncoding("UTF-8");
+		resp.getWriter().print(Item.currentJson);
 	}
 }
