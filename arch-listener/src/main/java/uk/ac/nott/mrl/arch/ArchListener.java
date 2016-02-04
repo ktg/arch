@@ -85,7 +85,7 @@ public class ArchListener implements SerialPortEventListener
 		{
 			String[] parts = string.split(" ");
 
-			logger.info(string);
+			logger.fine(string);
 			if (parts.length >= 2)
 			{
 				final FormBody.Builder bodyBuilder = new FormBody.Builder()
