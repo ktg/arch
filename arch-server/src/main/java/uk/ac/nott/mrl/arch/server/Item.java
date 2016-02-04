@@ -41,6 +41,7 @@ class Item
 	private String leave;
 	private Direction direction = null;
 	private State state = State.waiting;
+	private int heightCM = 0;
 	private String height;
 	private List<String> data = new ArrayList<>();
 
@@ -88,9 +89,16 @@ class Item
 		return height;
 	}
 
-	public void setHeight(String height)
+	public void setHeight(int heightCM)
 	{
-		this.height = height;
+		if(heightCM > this.heightCM)
+		{
+			this.heightCM = heightCM;
+			int feetPart = (int) Math.floor((heightCM / 2.54) / 12);
+			int inchesPart = (int) Math.floor((heightCM / 2.54) - (feetPart * 12));
+			this.height = String.format("%d' %d\"", feetPart, inchesPart);
+			//logger.info("Height: " + Item.current.getHeight());
+		}
 	}
 
 	public void setAuthor(String author)

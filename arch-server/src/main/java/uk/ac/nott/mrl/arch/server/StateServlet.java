@@ -144,15 +144,11 @@ public class StateServlet extends HttpServlet
 		final String height = req.getParameter("height");
 		if (height != null)
 		{
-			logger.info("Height: " + height);
+			//logger.info("Height: " + height);
 			try
 			{
 				int heightCM = Integer.parseInt(height);
-
-				int feetPart = (int) Math.floor((heightCM / 2.54) / 12);
-				int inchesPart = (int) Math.floor((heightCM / 2.54) - (feetPart * 12));
-				Item.current.setHeight(String.format("%d' %d\"", feetPart, inchesPart));
-				logger.info("Height: " + Item.current.getHeight());
+				Item.current.setHeight(heightCM);
 			}
 			catch (Exception e)
 			{
