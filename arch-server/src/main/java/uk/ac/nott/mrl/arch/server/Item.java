@@ -161,4 +161,9 @@ class Item
 	{
 		return direction;
 	}
+
+	public List<String> getData()
+	{
+		return data;
+	}
 }

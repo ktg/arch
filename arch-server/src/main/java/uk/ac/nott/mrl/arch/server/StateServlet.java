@@ -40,6 +40,7 @@ public class StateServlet extends HttpServlet
 	private final Random random = new Random();
 	private final List<String> approach;
 	private final List<String> leave;
+	private final List<String> qualities;
 	private final Properties properties = new Properties();
 	private URL facebookURL;
 
@@ -47,6 +48,7 @@ public class StateServlet extends HttpServlet
 	{
 		approach = loadStrings("/approach.json");
 		leave = loadStrings("/leave.json");
+		qualities = StateServlet.loadStrings("/qualities.json");
 		try
 		{
 
@@ -61,7 +63,7 @@ public class StateServlet extends HttpServlet
 		}
 	}
 
-	private static List<String> loadStrings(String file)
+	static List<String> loadStrings(String file)
 	{
 		try
 		{
@@ -125,6 +127,13 @@ public class StateServlet extends HttpServlet
 					{
 						Item.current.setLeave(leaveString);
 					}
+
+					if(Item.current.getData().isEmpty())
+					{
+						index = random.nextInt(qualities.size());
+						Item.current.getData().add(qualities.get(index));
+					}
+
 					logger.info("Leave Message: " + leaveString);
 				}
 
