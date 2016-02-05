@@ -120,14 +120,17 @@ class Item
 			builder.append(height);
 			builder.append("\n");
 		}
-		builder.append("They asked themselves ");
-		builder.append(approach.toLowerCase());
-		builder.append("\n");
-		builder.append("They gained this wisdom: ");
-		builder.append(leave);
-		if(author != null)
+		if(approach != null)
 		{
-			builder.append(author);
+			builder.append("They asked themselves ");
+			builder.append(approach.toLowerCase());
+			builder.append("\n");
+			builder.append("They gained this wisdom: ");
+			builder.append(leave);
+			if (author != null)
+			{
+				builder.append(author);
+			}
 		}
 		return builder.toString();
 	}
