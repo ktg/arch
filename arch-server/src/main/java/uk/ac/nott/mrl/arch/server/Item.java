@@ -110,13 +110,18 @@ class Item
 	public String toString()
 	{
 		final StringBuilder builder = new StringBuilder();
-		builder.append(approach);
-		builder.append("\n");
 		for(String dataItem: data)
 		{
 			builder.append(dataItem);
 			builder.append("\n");
 		}
+		if(height != null)
+		{
+			builder.append(height);
+			builder.append("\n");
+		}
+		builder.append(approach);
+		builder.append("\n");
 		builder.append(leave);
 		if(author != null)
 		{

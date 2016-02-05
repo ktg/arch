@@ -18,7 +18,7 @@ body {
 	flex-direction: column;
 	height: 100%;
 	margin-left: 20px;
-	border-left: 6px solid #777;
+	border-left: 10px solid #777;
 	padding-left: 80px;
 	margin-right: 20px;
 	border-right: 6px solid #777;
@@ -43,6 +43,10 @@ body {
 	opacity: 0;
 }
 
+.padding {
+	flex: 1;
+}
+
 #leave {
 	text-align:center;
 	transition: opacity 0.1s ease-in-out;
@@ -55,6 +59,7 @@ body {
 	font-style: italic;
 	transition: opacity 0.1s ease-in-out;
 	opacity: 0;
+	font-size: 75%;
 }
 
 #circleHolder {

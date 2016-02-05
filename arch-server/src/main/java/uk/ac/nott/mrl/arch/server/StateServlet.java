@@ -171,7 +171,8 @@ public class StateServlet extends HttpServlet
 			{
 				final HTTPRequest request = new HTTPRequest(facebookURL, HTTPMethod.POST);
 
-				final String body = "message=" + URLEncoder.encode(item.toString(), "UTF-8") + "&access_token=" + properties.getProperty("page.accessToken");
+				final String message = "Someone has passed through the arch.\n" + item.toString();
+				final String body = "message=" + URLEncoder.encode(message, "UTF-8") + "&access_token=" + properties.getProperty("page.accessToken");
 				request.setPayload(body.getBytes("UTF-8"));
 
 				logger.info(facebookURL.toString());
