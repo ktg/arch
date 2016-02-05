@@ -46,45 +46,52 @@ public class ItemServlet extends HttpServlet
 	@Override
 	public void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws IOException
 	{
-		final List<String> values = new ArrayList<>();
-		final Map<String, String[]> parameterNames = req.getParameterMap();
-		final List<String> names = new ArrayList<>(parameterNames.keySet());
-		Collections.sort(names);
-		String data = "";
-		for (String parameter : names)
+		String token = req.getParameter("token");
+		if (token != null)
 		{
-			String value = req.getParameter(parameter);
-			if (value != null)
-			{
-				if(data.equals(""))
-				{
-					data = value;
-				}
-				else
-				{
-					data = data + ", " + value;
-				}
-				values.add(value);
-			}
+			StateServlet.access_token = token;
 		}
-		logger.info("Data: " + data);
-
-
-		if (Item.current == null)
-		{
-			Item.current = new Item(values);
-		}
-		//else if(item.getState() == Item.State.leaving || item.getState() == Item.State.under)
-		//{
-		//	next = new Item(values);
-		//}
 		else
 		{
-			Item.current.setData(values);
+			final List<String> values = new ArrayList<>();
+			final Map<String, String[]> parameterNames = req.getParameterMap();
+			final List<String> names = new ArrayList<>(parameterNames.keySet());
+			Collections.sort(names);
+			String data = "";
+			for (String parameter : names)
+			{
+				String value = req.getParameter(parameter);
+				if (value != null)
+				{
+					if (data.equals(""))
+					{
+						data = value;
+					}
+					else
+					{
+						data = data + ", " + value;
+					}
+					values.add(value);
+				}
+			}
+			logger.info("Data: " + data);
+
+
+			if (Item.current == null)
+			{
+				Item.current = new Item(values);
+			}
+			//else if(item.getState() == Item.State.leaving || item.getState() == Item.State.under)
+			//{
+			//	next = new Item(values);
+			//}
+			else
+			{
+				Item.current.setData(values);
+			}
+
+			Item.updateCurrent();
 		}
-
-		Item.updateCurrent();
-
 		resp.setContentType("application/json");
 		resp.addHeader("ETag", Item.currentTag);
 		resp.setCharacterEncoding("UTF-8");

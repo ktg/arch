@@ -36,6 +36,7 @@ public class StateServlet extends HttpServlet
 	private static final Gson gson = new GsonBuilder().create();
 	private static final URLFetchService fetcher = URLFetchServiceFactory.getURLFetchService();
 
+	public static String access_token;
 	private final Random random = new Random();
 	private final List<String> approach;
 	private final List<String> leave;
@@ -50,6 +51,7 @@ public class StateServlet extends HttpServlet
 		{
 
 			properties.load(load("/facebook.properties"));
+			access_token = properties.getProperty("page.accessToken");
 
 			facebookURL = new URL("https://graph.facebook.com/v2.5/" + properties.getProperty("page.id") + "/feed");
 		}
@@ -172,7 +174,7 @@ public class StateServlet extends HttpServlet
 				final HTTPRequest request = new HTTPRequest(facebookURL, HTTPMethod.POST);
 
 				final String message = "Someone has passed through the arch.\n" + item.toString();
-				final String body = "message=" + URLEncoder.encode(message, "UTF-8") + "&access_token=" + properties.getProperty("page.accessToken");
+				final String body = "message=" + URLEncoder.encode(message, "UTF-8") + "&access_token=" + access_token;
 				request.setPayload(body.getBytes("UTF-8"));
 
 				logger.info(facebookURL.toString());
