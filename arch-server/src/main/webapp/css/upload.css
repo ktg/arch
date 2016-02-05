@@ -15,7 +15,7 @@ input[type="radio"] {
 input[type="radio"] + label {
 	cursor: pointer;
 	display:inline-block;
-	padding: 10px 20px;
+	padding: 5px 10px;
 	margin: 5px;
 	vertical-align:middle;
 	background: #CCC;
@@ -30,7 +30,7 @@ input[type="radio"]:checked + label {
 
 .group {
 	display: flex;
-	padding: 10px;
+	padding: 5px;
 	flex-wrap: wrap;
 }
 
