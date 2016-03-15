@@ -1,4 +1,5 @@
 /arch-server/src/main/resources/facebook.properties
-.gradle/
-.idea/
-build/
+/.gradle/
+/.idea/
+/build/
+/logs/

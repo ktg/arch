@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee">
+	<servlet>
+		<servlet-name>ItemServlet</servlet-name>
+		<servlet-class>uk.ac.nott.mrl.arch.server.ItemServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ItemServlet</servlet-name>
+		<url-pattern>/item</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>StateServlet</servlet-name>
+		<servlet-class>uk.ac.nott.mrl.arch.server.StateServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StateServlet</servlet-name>
+		<url-pattern>/state</url-pattern>
+	</servlet-mapping>
+
+	<listener>
+		<listener-class>uk.ac.nott.mrl.arch.server.ArchLogConfigListener</listener-class>
+	</listener>
+
+	<welcome-file-list>
+		<welcome-file>left.html</welcome-file>
+	</welcome-file-list>
+</web-app>
