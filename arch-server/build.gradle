@@ -15,41 +15,28 @@
  *     You should have received a copy of the GNU Affero General Public License
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-buildscript {
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath 'com.google.appengine:gradle-appengine-plugin:1.9.30'
-	}
-}
 
 repositories {
 	mavenCentral();
 }
 
 apply plugin: 'java'
-apply plugin: 'war'
+apply plugin: 'jetty'
 apply plugin: 'idea'
-apply plugin: 'appengine'
 
 sourceCompatibility = JavaVersion.VERSION_1_7
 targetCompatibility = JavaVersion.VERSION_1_7
 
 dependencies {
-	appengineSdk 'com.google.appengine:appengine-java-sdk:1.9.32'
-	compile "com.google.appengine:appengine-api-1.0-sdk:1.9.32"
 	compile 'javax.servlet:servlet-api:2.5'
 	compile 'com.google.code.gson:gson:2.5'
 	compile 'com.google.guava:guava:19.0'
+    compile 'com.squareup.okhttp3:okhttp:3.1.2'
 }
 
-appengine {
-	downloadSdk = true
-	httpAddress = "0.0.0.0"
-	httpPort = 80
-}
+httpPort = 8080
+jettyRun.contextPath = "arch"
 
 task wrapper(type: Wrapper) {
-	gradleVersion = '2.10'
+	gradleVersion = '2.12'
 }

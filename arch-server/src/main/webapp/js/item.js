@@ -1,6 +1,6 @@
 (function poll() {
     $.ajax({
-        url: "/item",
+        url: "item",
         type: "GET",
         ifModified: true,
         success: function(item) {

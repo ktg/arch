@@ -24,10 +24,6 @@
 
 package uk.ac.nott.mrl.arch.server;
 
-import com.google.appengine.api.urlfetch.HTTPMethod;
-import com.google.appengine.api.urlfetch.HTTPRequest;
-import com.google.appengine.api.urlfetch.URLFetchService;
-import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -36,7 +32,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -48,11 +43,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class StateServlet extends HttpServlet
 {
+	private static final OkHttpClient client = new OkHttpClient();
 	private static final Logger logger = Logger.getLogger("Updates");
 	private static final Gson gson = new GsonBuilder().create();
-	private static final URLFetchService fetcher = URLFetchServiceFactory.getURLFetchService();
 
 	public static String access_token;
 	private final Random random = new Random();
@@ -198,16 +200,34 @@ public class StateServlet extends HttpServlet
 		{
 			if (properties.getProperty("upload.enabled").equals("true"))
 			{
-				final HTTPRequest request = new HTTPRequest(facebookURL, HTTPMethod.POST);
-
 				final String message = "Someone has passed through the arch.\n" + item.toString();
-				final String body = "message=" + URLEncoder.encode(message, "UTF-8") + "&access_token=" + access_token;
-				request.setPayload(body.getBytes("UTF-8"));
+				MultipartBody body = new MultipartBody.Builder()
+						.addFormDataPart("message", message)
+						.addFormDataPart("access_token", access_token)
+						.build();
+
+				Request request = new Request.Builder()
+						.url("http://www.cs.nott.ac.uk/babyface/upload.php")
+						.post(body)
+						.build();
 
 				logger.info(facebookURL.toString());
-				logger.info(body);
+				logger.info(body.toString());
 
-				fetcher.fetchAsync(request);
+				client.newCall(request).enqueue(new Callback()
+				{
+					@Override
+					public void onFailure(Call call, IOException e)
+					{
+
+					}
+
+					@Override
+					public void onResponse(Call call, Response response) throws IOException
+					{
+
+					}
+				});
 			}
 		}
 		catch (Exception e)

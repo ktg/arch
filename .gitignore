@@ -1,5 +1,8 @@
+/arch-server/src/main/webapp/bower_components/
 /arch-server/src/main/resources/facebook.properties
+/arch-server/build/
+/arch-listener/build/
+/build/
 /.gradle/
 /.idea/
-/build/
 /logs/
