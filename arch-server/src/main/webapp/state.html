@@ -21,7 +21,7 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="css/upload.css">
-	<script src="https://code.jquery.com/jquery-3.0.0-beta1.min.js"></script>
+	<script src="bower_components/jquery.min/index.js"></script>
 </head>
 <body>
 <div id="waiting" class="submit">Waiting</div>
@@ -35,7 +35,7 @@
 		$("div").click(function() {
             $.ajax({
                 type: 'POST',
-                url: '/state',
+                url: 'state',
                 data: {
                     'direction': 'left',
                     'state': $(this).attr('id')
