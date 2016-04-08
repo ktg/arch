@@ -69,7 +69,7 @@
 		$("#submit").click(function() {
             $.ajax({
                 type: 'POST',
-                url: '/item',
+                url: 'item',
                 data: $('#form').serialize()
 			});
             $("input").prop('checked', false);
