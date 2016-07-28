@@ -29,14 +29,17 @@ targetCompatibility = JavaVersion.VERSION_1_7
 
 dependencies {
 	compile 'javax.servlet:servlet-api:2.5'
-	compile 'com.google.code.gson:gson:2.5'
+	compile 'com.google.code.gson:gson:2.7'
 	compile 'com.google.guava:guava:19.0'
-    compile 'com.squareup.okhttp3:okhttp:3.1.2'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
 }
 
 httpPort = 8080
-jettyRun.contextPath = "arch"
+stopPort = 9090
+stopKey = 'stopKey'
+jettyRun.contextPath = 'arch'
+jettyRun.daemon = true
 
 task wrapper(type: Wrapper) {
-	gradleVersion = '2.12'
+	gradleVersion = '2.14.1'
 }

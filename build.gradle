@@ -23,6 +23,22 @@ repositories {
 	mavenCentral()
 }
 
+task openArchLeft(type: Exec) {
+//task openArchLeft(type: Exec, dependsOn: ':arch-server:jettyRun') << {
+    commandLine 'cmd', '/c', 'C:/Program Files/Google Chrome/chrome', 'http://localhost:8080/arch/left.html', '--user-data-dir=~/Downloads/left'
+}
+
+
+task openArchRight(type: Exec) << {
+    commandLine 'cmd', '/c', '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', 'http://localhost:8080/arch/right.html', '--userDataDir=~/Downloads/right'
+}
+
+openArchRight.dependsOn('openArchLeft')
+
+task runAll(dependsOn: 'openArchRight') << {
+    project(':arch-listener').run.execute()
+}
+
 task wrapper(type: Wrapper) {
-	gradleVersion = '2.10'
+	gradleVersion = '2.14.1'
 }

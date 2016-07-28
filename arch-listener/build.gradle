@@ -27,7 +27,7 @@ repositories {
 }
 
 dependencies {
-	compile 'com.squareup.okhttp3:okhttp:3.0.1'
+	compile 'com.squareup.okhttp3:okhttp:3.4.1'
 	compile 'org.scream3r:jssc:2.8.0'
 }
 
@@ -37,5 +37,5 @@ task testClient(type: JavaExec) {
 }
 
 task wrapper(type: Wrapper) {
-	gradleVersion = '2.10'
+	gradleVersion = '2.14.1'
 }
