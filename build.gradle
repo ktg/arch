@@ -17,25 +17,16 @@
  */
 
 apply plugin: 'idea'
-apply plugin: 'java'
 
 repositories {
 	mavenCentral()
 }
 
-task openArchLeft(type: Exec) {
-//task openArchLeft(type: Exec, dependsOn: ':arch-server:jettyRun') << {
-    commandLine 'cmd', '/c', 'C:/Program Files/Google Chrome/chrome', 'http://localhost:8080/arch/left.html', '--user-data-dir=~/Downloads/left'
-}
-
-
-task openArchRight(type: Exec) << {
-    commandLine 'cmd', '/c', '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', 'http://localhost:8080/arch/right.html', '--userDataDir=~/Downloads/right'
-}
-
-openArchRight.dependsOn('openArchLeft')
-
-task runAll(dependsOn: 'openArchRight') << {
+task runArchWindows(dependsOn: ':arch-server:jettyRun') << {
+    ProcessBuilder pb1 = new ProcessBuilder(['C:/Program Files (x86)/Google/Chrome/Application/chrome.exe', '--user-data-dir=D:/chrome-users/left', '--start-fullscreen', 'http://localhost:8080/arch/left.html']);
+    Process proc1 = pb1.start();
+    ProcessBuilder pb2 = new ProcessBuilder(['C:/Program Files (x86)/Google/Chrome/Application/chrome.exe', '--user-data-dir=D:/chrome-users/right', '--window-position=1980,0', '--start-fullscreen', 'http://localhost:8080/arch/right.html']);
+    Process proc2 = pb2.start();
     project(':arch-listener').run.execute()
 }
 
