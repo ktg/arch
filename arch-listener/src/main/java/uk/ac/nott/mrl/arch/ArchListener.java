@@ -124,7 +124,7 @@ public class ArchListener implements SerialPortEventListener
 
 				final Request.Builder builder = new Request.Builder()
 						.post(bodyBuilder.build())
-						.url("http://localhost:8080/arch/state");
+						.url("http://127.0.0.1:8080/arch/state");
 				final Request request = builder.build();
 				try
 				{
