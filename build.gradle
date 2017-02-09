@@ -23,9 +23,9 @@ repositories {
 }
 
 task runArchWindows(dependsOn: ':arch-server:jettyRun') << {
-    ProcessBuilder pb1 = new ProcessBuilder(['C:/Program Files (x86)/Google/Chrome/Application/chrome.exe', '--user-data-dir=D:/chrome-users/left', '--start-fullscreen', 'http://localhost:8080/arch/left.html']);
+    ProcessBuilder pb1 = new ProcessBuilder(['C:/Program Files (x86)/Google/Chrome/Application/chrome.exe', '--user-data-dir=D:/chrome-users/left', '--disable-infobars', '--start-fullscreen', 'http://localhost:8080/arch/left.html']);
     Process proc1 = pb1.start();
-    ProcessBuilder pb2 = new ProcessBuilder(['C:/Program Files (x86)/Google/Chrome/Application/chrome.exe', '--user-data-dir=D:/chrome-users/right', '--window-position=1980,0', '--start-fullscreen', 'http://localhost:8080/arch/right.html']);
+    ProcessBuilder pb2 = new ProcessBuilder(['C:/Program Files (x86)/Google/Chrome/Application/chrome.exe', '--user-data-dir=D:/chrome-users/right', '--disable-infobars', '--window-position=1980,0', '--start-fullscreen', 'http://localhost:8080/arch/right.html']);
     Process proc2 = pb2.start();
     project(':arch-listener').run.execute()
 }
