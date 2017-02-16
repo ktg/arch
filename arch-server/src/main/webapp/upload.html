@@ -24,46 +24,71 @@
 	<script src="js/jquery-3.1.0.min.js"></script>
 </head>
 <body>
-<form id="form">
-	<div class="group">
-		<div><input id="male" name="agender" value="Male" type="radio"/><label
-				for="male">Male</label></div>
-		<div><input id="female" name="agender" value="Female" type="radio"><label for="female">Female</label>
+<div id="form">
+	<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 65px; overflow-y: scroll;">
+		<div class="group">
+			<div><input id="male" name="agender" value="Male" type="radio"/><label
+					for="male">Male</label></div>
+			<div><input id="female" name="agender" value="Female" type="radio"><label for="female">Female</label>
+			</div>
+			<div><input id="child" name="agender" value="Child" type="radio"><label
+					for="child">Child</label></div>
+			<div><input id="couple" name="agender" value="Couple" type="radio"><label for="couple">Couple</label>
+			</div>
+			<div><input id="gac" name="agender" value="Grownup with Child" type="radio"><label for="gac">Grownup +
+				Child</label>
+			</div>
+			<div><input id="gacs" name="agender" value="Grownup with Children" type="radio"><label for="gacs">Grownup +
+				Children</label>
+			</div>
 		</div>
-		<div><input id="child" name="agender" value="Child" type="radio"><label
-				for="child">Child</label></div>
-		<div><input id="couple" name="agender" value="Couple" type="radio"><label for="couple">Couple</label>
+
+		<div class="group">
+			<input id="glasses" name="cglasses" value="Glasses" type="radio"/><label for="glasses">Glasses</label>
 		</div>
-		<div><input id="gac" name="agender" value="Grownup with Child" type="radio"><label for="gac">Grownup + Child</label>
+		<div class="group">
+			<input id="hat" name="chat" value="Hat" type="radio"/><label for="hat">Hat</label>
 		</div>
-		<div><input id="gacs" name="agender" value="Grownup with Children" type="radio"><label for="gacs">Grownup + Children</label>
+		<div class="group">
+			<input id="scarf" name="cscarf" value="Scarf" type="radio"/><label for="scarf">Scarf</label>
+		</div>
+		<div class="group">
+			<input id="bag" name="cxbag" value="Bag" type="radio"/><label for="scarf">Bag</label>
+		</div>
+
+
+		<div class="group">
+			<input id="pa" name="dquality" value="Positive Attitude" type="radio"/><label for="pa">Positive
+			Attitude</label>
+			<input id="thought" name="dquality" value="Thoughtful" type="radio"/><label for="thought">Thoughtful</label>
+			<input id="gsoh" name="dquality" value="Good Sense of Humour" type="radio"/><label for="gsoh">Good Sense of
+			Humour</label>
+			<input id="steps" name="dquality" value="Steps Forward Boldly" type="radio"/><label for="steps">Steps
+			Forward Boldly</label>
+			<input id="snap" name="dquality" value="Snappy Dresser" type="radio"/><label for="snap">Snappy
+			Dresser</label>
+			<input id="think" name="dquality" value="Thinks Ahead" type="radio"/><label for="think">Thinks Ahead</label>
+			<input id="laugh" name="dquality" value="Laughs a Lot" type="radio"/><label for="laugh">Laughs Alot</label>
+			<input id="smile" name="dquality" value="Always Smiling" type="radio"/><label for="smile">Always
+			Smiling</label>
+			<input id="funny" name="dquality" value="See the Funny Side" type="radio"/><label for="funny">Sees the Funny
+			Side</label>
+			<input id="bright" name="dquality" value="Looks on the Bright Side" type="radio"/><label for="bright">Looks
+			on the Bright Side</label>
+			<input id="glass" name="dquality" value="Glass is Half Full" type="radio"/><label for="glass">Glass is Half
+			Full</label>
+			<input id="weigh" name="dquality" value="Weighs Things Up" type="radio"/><label for="weigh">Weighs Things
+			Up</label>
+			<input id="style" name="dquality" value="Does Things in Style" type="radio"/><label for="style">Does Things
+			in Style</label>
+			<input id="words" name="dquality" value="Never Lost for Words" type="radio"/><label for="words">Never Lost
+			for Words</label>
 		</div>
 	</div>
-
-	<div class="group">
-		<input id="glasses" name="cglasses" value="Glasses" type="radio"/><label for="glasses">Glasses</label>
-		<input id="hat" name="cglasses" value="Hat" type="radio"/><label for="hat">Hat</label>
+	<div  style="position: absolute; left: 0; right: 0; bottom: 0;">
+		<div id="submit" class="submit">Submit</div>
 	</div>
 
-	<div class="group">
-		<input id="pa" name="dquality" value="Positive Attitude" type="radio"/><label for="pa">Positive
-		Attitude</label>
-		<input id="thought" name="dquality" value="Thoughtful" type="radio"/><label for="thought">Thoughtful</label>
-		<input id="gsoh" name="dquality" value="Good Sense of Humour" type="radio"/><label for="gsoh">Good Sense of Humour</label>
-		<input id="steps" name="dquality" value="Steps Forward Boldly" type="radio"/><label for="steps">Steps Forward Boldly</label>
-		<input id="snap" name="dquality" value="Snappy Dresser" type="radio"/><label for="snap">Snappy Dresser</label>
-		<input id="think" name="dquality" value="Thinks Ahead" type="radio"/><label for="think">Thinks Ahead</label>
-		<input id="laugh" name="dquality" value="Laughs a Lot" type="radio"/><label for="laugh">Laughs Alot</label>
-		<input id="smile" name="dquality" value="Always Smiling" type="radio"/><label for="smile">Always Smiling</label>
-		<input id="funny" name="dquality" value="See the Funny Side" type="radio"/><label for="funny">Sees the Funny Side</label>
-		<input id="bright" name="dquality" value="Looks on the Bright Side" type="radio"/><label for="bright">Looks on the Bright Side</label>
-		<input id="glass" name="dquality" value="Glass is Half Full" type="radio"/><label for="glass">Glass is Half Full</label>
-		<input id="weigh" name="dquality" value="Weighs Things Up" type="radio"/><label for="weigh">Weighs Things Up</label>
-		<input id="style" name="dquality" value="Does Things in Style" type="radio"/><label for="style">Does Things in Style</label>
-		<input id="words" name="dquality" value="Never Lost for Words" type="radio"/><label for="words">Never Lost for Words</label>
-	</div>
-
-	<div id="submit" class="submit">Submit</div>
 
 	<script language="JavaScript">
 		$("#submit").click(function() {
@@ -75,7 +100,8 @@
             $("input").prop('checked', false);
 		});
 
+
 	</script>
-</form>
+	</form>
 </body>
 </html>
