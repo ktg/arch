@@ -36,7 +36,7 @@ public class ArchListener implements SerialPortEventListener
 	private static final Logger logger = Logger.getLogger("");
 	private final SerialPort serialPort;
 	private final OkHttpClient httpClient;
-	StringBuilder message = new StringBuilder();
+	private StringBuilder message = new StringBuilder();
 
 	public ArchListener(String port)
 	{
