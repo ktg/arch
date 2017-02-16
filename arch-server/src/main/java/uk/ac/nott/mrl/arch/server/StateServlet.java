@@ -56,7 +56,7 @@ public class StateServlet extends HttpServlet
 	private static final Logger logger = Logger.getLogger("Updates");
 	private static final Gson gson = new GsonBuilder().create();
 
-	public static String access_token;
+	static String access_token;
 	private final Random random = new Random();
 	private final List<String> approach;
 	private final List<String> leave;
@@ -83,7 +83,7 @@ public class StateServlet extends HttpServlet
 		}
 	}
 
-	static List<String> loadStrings(String file)
+	private static List<String> loadStrings(String file)
 	{
 		try
 		{
@@ -115,7 +115,7 @@ public class StateServlet extends HttpServlet
 		if (stateString != null)
 		{
 			final Item.State state = Item.State.valueOf(stateString);
-			if (state != null && state != Item.current.getState())
+			if (state != Item.current.getState())
 			{
 				logger.info("State: " + state);
 				if (Item.current.getState() == Item.State.leaving || (Item.current.getState() == Item.State.under && state != Item.State.leaving))
@@ -165,7 +165,7 @@ public class StateServlet extends HttpServlet
 		if (directionString != null)
 		{
 			final Item.Direction direction = Item.Direction.valueOf(directionString);
-			if (direction != null && Item.current.getDirection() != direction)
+			if (Item.current.getDirection() != direction)
 			{
 				Item.current.setDirection(direction);
 				logger.info("Direction: " + direction.toString());
@@ -207,25 +207,22 @@ public class StateServlet extends HttpServlet
 						.build();
 
 				Request request = new Request.Builder()
-						.url("http://www.cs.nott.ac.uk/babyface/upload.php")
+						.url(facebookURL)
 						.post(body)
 						.build();
-
-				logger.info(facebookURL.toString());
-				logger.info(body.toString());
 
 				client.newCall(request).enqueue(new Callback()
 				{
 					@Override
 					public void onFailure(Call call, IOException e)
 					{
-
+						logger.log(Level.WARNING, e.getMessage(), e);
 					}
 
 					@Override
 					public void onResponse(Call call, Response response) throws IOException
 					{
-
+						logger.info("Sent to Facebook");
 					}
 				});
 			}
