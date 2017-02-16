@@ -106,11 +106,6 @@ public class StateServlet extends HttpServlet
 	@Override
 	public void doPost(final HttpServletRequest req, final HttpServletResponse resp) throws IOException
 	{
-		if (Item.current == null)
-		{
-			Item.current = new Item(new ArrayList<String>());
-		}
-
 		final String stateString = req.getParameter("state");
 		if (stateString != null)
 		{
@@ -121,12 +116,7 @@ public class StateServlet extends HttpServlet
 				if (Item.current.getState() == Item.State.leaving || (Item.current.getState() == Item.State.under && state != Item.State.leaving))
 				{
 					facebookPost(Item.current);
-
-					Item.current = Item.next;
-					if (Item.current == null)
-					{
-						Item.current = new Item(new ArrayList<String>());
-					}
+					Item.current = new Item();
 				}
 
 				if (state == Item.State.engagement)

@@ -18,6 +18,7 @@
 
 package uk.ac.nott.mrl.arch;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,10 +27,7 @@ import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
 import jssc.SerialPortList;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 
 public class ArchListener implements SerialPortEventListener
 {
@@ -38,7 +36,7 @@ public class ArchListener implements SerialPortEventListener
 	private final OkHttpClient httpClient;
 	private StringBuilder message = new StringBuilder();
 
-	public ArchListener(String port)
+	private ArchListener(String port)
 	{
 		serialPort = new SerialPort(port);
 		try
@@ -128,7 +126,19 @@ public class ArchListener implements SerialPortEventListener
 				final Request request = builder.build();
 				try
 				{
-					final Response response = httpClient.newCall(request).execute();
+					httpClient.newCall(request).enqueue(new Callback()
+					{
+						@Override
+						public void onFailure(Call call, IOException e)
+						{
+							logger.log(Level.WARNING, e.getMessage(), e);
+						}
+
+						@Override
+						public void onResponse(Call call, Response response) throws IOException
+						{
+						}
+					});
 				}
 				catch (Exception e)
 				{

@@ -50,11 +50,6 @@ public class ItemServlet extends HttpServlet
 		else
 		{
 			resp.setContentType("application/json");
-			if (Item.current == null)
-			{
-				Item.current = new Item();
-			}
-
 			resp.addHeader("ETag", Item.currentTag);
 			resp.setCharacterEncoding("UTF-8");
 			resp.getWriter().print(Item.currentJson);
@@ -94,20 +89,7 @@ public class ItemServlet extends HttpServlet
 			}
 			logger.info("Data: " + data);
 
-
-			if (Item.current == null)
-			{
-				Item.current = new Item(values);
-			}
-			//else if(item.getState() == Item.State.leaving || item.getState() == Item.State.under)
-			//{
-			//	next = new Item(values);
-			//}
-			else
-			{
-				Item.current.setData(values);
-			}
-
+			Item.current.setData(values);
 			Item.updateCurrent();
 		}
 		resp.setContentType("application/json");
