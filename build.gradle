@@ -15,21 +15,24 @@
  *     You should have received a copy of the GNU Affero General Public License
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-apply plugin: 'idea'
-
 repositories {
 	mavenCentral()
 }
 
-task runArchWindows(dependsOn: ':arch-server:jettyRun') << {
-    ProcessBuilder pb1 = new ProcessBuilder(['C:/Program Files (x86)/Google/Chrome/Application/chrome.exe', '--user-data-dir=D:/chrome-users/left', '--kiosk', ' --incognito', '--disable-infobars', '--start-fullscreen', 'http://localhost:8080/arch/left.html']);
-    Process proc1 = pb1.start();
-    ProcessBuilder pb2 = new ProcessBuilder(['C:/Program Files (x86)/Google/Chrome/Application/chrome.exe', '--user-data-dir=D:/chrome-users/right', '--kiosk', ' --incognito', '--disable-infobars', '--window-position=1980,0', '--start-fullscreen', 'http://localhost:8080/arch/right.html']);
-    Process proc2 = pb2.start();
-    project(':arch-listener').run.execute()
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'application'
+
+mainClassName = "uk.ac.nott.mrl.arch.Arch"
+
+dependencies {
+	compile 'com.google.guava:guava:19.0'
+	compile 'com.squareup.okhttp3:okhttp:3.4.1'
+	compile 'com.google.code.gson:gson:2.8.0'
+	compile 'com.sparkjava:spark-core:2.5.5'
+	compile 'org.scream3r:jssc:2.8.0'
 }
 
 task wrapper(type: Wrapper) {
-	gradleVersion = '2.14.1'
+	gradleVersion = '3.4.1'
 }

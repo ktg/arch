@@ -1,0 +1,31 @@
+2017-Mar-10 13:41:53.300    INFO: {"state":"waiting","heightCM":0,"data":[]}
+2017-Mar-10 13:43:29.549    INFO: {"state":"waiting","heightCM":0,"data":[]}
+2017-Mar-10 13:44:51.203    INFO: null
+2017-Mar-10 13:44:51.244    INFO: {"state":"waiting","heightCM":0,"data":[]}
+2017-Mar-10 13:46:50.108    INFO: left
+2017-Mar-10 13:46:50.124    INFO: State1: left
+2017-Mar-10 13:46:50.125    INFO: State: left
+2017-Mar-10 13:46:50.149    INFO: {"state":"left","heightCM":0,"data":[]}
+2017-Mar-10 13:46:54.950    INFO: waiting
+2017-Mar-10 13:46:54.952    INFO: State1: waiting
+2017-Mar-10 13:46:54.954    INFO: State: waiting
+2017-Mar-10 13:46:54.955    INFO: {"state":"waiting","heightCM":0,"data":[]}
+2017-Mar-10 13:46:57.702    INFO: engagement
+2017-Mar-10 13:46:57.704    INFO: State1: engagement
+2017-Mar-10 13:46:57.706    INFO: State: engagement
+2017-Mar-10 13:46:57.707    INFO: Approach Message: When did something unexpected happen that was better than what you expected?
+2017-Mar-10 13:46:57.713    INFO: Leave Message: Imagination is more important than knowledge. -  Albert Einstein
+2017-Mar-10 13:46:57.715    INFO: {"approach":"When did something unexpected happen that was better than what you expected?","author":"Albert Einstein","leave":"Imagination is more important than knowledge.","state":"engagement","heightCM":0,"data":["Looks Before Leaping"]}
+2017-Mar-10 13:46:59.175    INFO: approaching
+2017-Mar-10 13:46:59.176    INFO: State1: approaching
+2017-Mar-10 13:46:59.177    INFO: State: approaching
+2017-Mar-10 13:46:59.178    INFO: {"approach":"When did something unexpected happen that was better than what you expected?","author":"Albert Einstein","leave":"Imagination is more important than knowledge.","state":"approaching","heightCM":0,"data":["Looks Before Leaping"]}
+2017-Mar-10 13:47:24.112    INFO: Data: 
+2017-Mar-10 13:47:24.114    INFO: {"approach":"When did something unexpected happen that was better than what you expected?","author":"Albert Einstein","leave":"Imagination is more important than knowledge.","state":"approaching","heightCM":0,"data":[]}
+2017-Mar-10 13:47:34.169    INFO: Data: 
+2017-Mar-10 13:51:47.488    INFO: leaving
+2017-Mar-10 13:51:47.491    INFO: State1: leaving
+2017-Mar-10 13:51:47.492    INFO: State: leaving
+2017-Mar-10 13:51:47.495    INFO: {"approach":"When did something unexpected happen that was better than what you expected?","author":"Albert Einstein","leave":"Imagination is more important than knowledge.","state":"leaving","heightCM":0,"data":[]}
+2017-Mar-10 13:57:15.701    INFO: Data: Male, Glasses, Hat, Scarf, Bag, Positive Attitude
+2017-Mar-10 13:57:15.764    INFO: {"state":"waiting","heightCM":0,"data":["Male","Glasses","Hat","Scarf","Bag","Positive Attitude"]}

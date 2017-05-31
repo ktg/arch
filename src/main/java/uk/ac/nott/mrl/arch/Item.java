@@ -16,11 +16,10 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package uk.ac.nott.mrl.arch.server;
+package uk.ac.nott.mrl.arch;
 
 import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ class Item
 {
 	private static final Logger logger = Logger.getLogger("Data");
 
-	private static final Gson gson = new GsonBuilder().create();
+	private static final Gson gson = new Gson();
 	private static final Charset charset = Charset.forName("UTF-8");
 	static Item current = new Item();
 	static String currentJson = "";
@@ -62,21 +61,16 @@ class Item
 	private String height;
 	private List<String> data = new ArrayList<>();
 
-	public Item()
+	Item()
 	{
 	}
 
-	public Item(final List<String> data)
-	{
-		this.data = data;
-	}
-
-	public State getState()
+	State getState()
 	{
 		return state;
 	}
 
-	public void setState(State state)
+	void setState(State state)
 	{
 		this.state = state;
 	}
@@ -86,27 +80,22 @@ class Item
 		this.data = data;
 	}
 
-	public void setApproach(String approach)
+	void setApproach(String approach)
 	{
 		this.approach = approach;
 	}
 
-	public void setLeave(String leave)
+	void setLeave(String leave)
 	{
 		this.leave = leave;
 	}
 
-	public void setDirection(Direction direction)
+	void setDirection(Direction direction)
 	{
 		this.direction = direction;
 	}
 
-	public String getHeight()
-	{
-		return height;
-	}
-
-	public void setHeight(int heightCM)
+	void setHeight(int heightCM)
 	{
 		if(heightCM > this.heightCM)
 		{
@@ -118,7 +107,7 @@ class Item
 		}
 	}
 
-	public void setAuthor(String author)
+	void setAuthor(String author)
 	{
 		this.author = author;
 	}
@@ -152,7 +141,7 @@ class Item
 		return builder.toString();
 	}
 
-	public static void updateCurrent()
+	static void updateCurrent()
 	{
 		final String json = gson.toJson(current);
 		final String tag = Hashing.sha256().hashString(json, charset).toString();
@@ -164,17 +153,12 @@ class Item
 		}
 	}
 
-	public String getApproach()
+	String getApproach()
 	{
 		return approach;
 	}
 
-	public String getLeave()
-	{
-		return leave;
-	}
-
-	public Direction getDirection()
+	Direction getDirection()
 	{
 		return direction;
 	}
